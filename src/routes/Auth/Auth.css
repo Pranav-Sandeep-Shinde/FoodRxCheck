@@ -1,0 +1,94 @@
+.input-box {
+	@apply w-full py-[13px] pr-[30px] pl-[20px] bg-[#eee] rounded-[8px] border-none outline-none text-[16px]  text-[#333] font-medium placeholder-[#888] placeholder-opacity-70 cursor-text;
+}
+
+.formbox {
+	z-index: 1; /* Ensure forms are above the toggle box */
+}
+.container {
+	height: 550px;
+	width: 850px;
+}
+.toggel-box::before {
+	content: "";
+	position: absolute;
+	left: -250%;
+	width: 300%;
+	height: 100%;
+	z-index: -1; /* Send the background behind the forms */
+	background: #14b8a6;
+	border-radius: 80px;
+	transition: 0.8s ease-in-out;
+}
+
+.tg {
+	z-index: 1; /* Ensure toggle buttons are above the background */
+	transition: 0.6s ease-in-out;
+}
+
+.toggel-box {
+	z-index: 0; /* Keep the toggle box below the forms */
+}
+.active .toggel-box::before {
+	left: 50%;
+}
+
+@media screen and (max-width: 650px) {
+	.container {
+		height: calc(90vh - 50px);
+		display: flex; /* Center content vertically */
+		justify-content: center;
+		align-items: center;
+		margin: 10px;
+	}
+	.formbox {
+		width: 100%;
+		height: 70%;
+		bottom: 0;
+	}
+	.active .formbox {
+		right: 0;
+		bottom: 30%;
+	}
+	.toggel-box::before {
+		left: 0;
+		top: -275%;
+		width: 100%;
+		height: 300%;
+	}
+	.active .toggel-box::before {
+		left: 0;
+		top: 75%;
+	}
+	.tg {
+		width: 100%;
+		height: 30%;
+	}
+	.tg.Left {
+		top: 0;
+	}
+	.active .tg.Left {
+		left: 0;
+		top: -30%;
+	}
+	.tg.Right {
+		right: 0;
+		bottom: -30%;
+	}
+	.active .tg.Right {
+		bottom: 0;
+	}
+}
+
+@media screen and (max-width: 400px) {
+	.font-fit {
+		font-size: 20px;
+	}
+	.input-box {
+		@apply text-[14px] py-[10px] pl-[15px] pr-[27px];
+	}
+	.tg {
+		width: 100%;
+		height: 25%;
+	}
+}
