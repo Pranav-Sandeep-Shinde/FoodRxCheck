@@ -1,0 +1,249 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+.main {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+  animation: video-fade-in 0.5s ease-in;
+}
+
+.video.fade-out {
+  opacity: 0; 
+  pointer-events: none; 
+}
+
+@keyframes video-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.header-container {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  max-width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid #7494ec;
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 20px rgba(116, 148, 236, 0.3);
+  opacity: 0;
+  animation: expand-header 1s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes expand-header {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 90%;
+    opacity: 1;
+  }
+}
+
+.header-container:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 6px 25px rgba(116, 148, 236, 0.5);
+  backdrop-filter: none; /* Remove blur on hover */
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.logo {
+  width: 50px;
+  height: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rise-up-header 0.8s ease-out forwards;
+  animation-delay: 1s;
+}
+
+.header-button {
+  background: transparent;
+  color: #121111;
+  border: 2px solid transparent;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rise-up-header 0.8s ease-out forwards;
+  animation-delay: 1s;
+}
+
+.header-button:hover {
+  background: rgba(116, 148, 236, 0.2);
+  border: 2px solid #7494ec;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 500px;
+  background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  z-index: 2;
+  min-height: 120px;
+  max-height: 220px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: rise-up 2s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overlay:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 0 5px #7494ec;
+  border: 1px solid #7494ec;
+}
+
+@keyframes rise-up{
+  0% {
+    transform: translate(-50%, 50%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes rise-up-header {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.facts-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.fact-item {
+  font-size: 16px;
+  color: #ffffff;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.fact-item.fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fact-item.fade-out {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+@media (max-width: 768px) {
+  .header-container,
+  .overlay {
+    width: 95%;
+    padding: 8px 15px;
+  }
+
+  .logo {
+    width: 40px;
+  }
+
+  .header-button {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .fact-item {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-container,
+  .overlay {
+    width: 98%;
+    padding: 5px 10px;
+  }
+
+  .header-button {
+    font-size: 10px;
+    padding: 4px 10px;
+  }
+
+  .fact-item {
+    font-size: 12px;
+  }
+}
