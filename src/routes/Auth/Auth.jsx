@@ -203,9 +203,13 @@ function AuthLayout() {
         {/* Toggle Box */}
         <div className="absolute w-full h-full toggel-box bg-white">
           <div
+            id='register-box'
             className={`absolute left-0 bg-none w-1/2 h-full  flex items-center flex-col justify-center text-center text-white z-10 tg Left
               transition-all duration-700 ease-in-out ${isActive ? '-left-[50%] opacity-0 invisible' : 'left-0 opacity-100 visible'}`}>
-            <div className="text-[35px] font-bold font-fit">Welcome Back!</div>
+            <div id='Logo' className='flex justify-center'>
+              <img className=" w-[20em] rounded-full" style={{ background: "radial-gradient(circle, #14b8a6 50%, white 100%)" }} src="/drugSpecIconwhite1.png" alt="" />
+            </div>
+            <div className=" heading text-[35px] font-bold font-fit">Welcome Back!</div>
             <div className="my-1">Don't Have an Account?</div>
             <button
               className="bg-none text-white p-2  w-1/3 border-2 border-solid border-white rounded-lg"
@@ -214,11 +218,13 @@ function AuthLayout() {
               Register
             </button>
           </div>
-
           <div
             className={`absolute right-0 bg-none w-1/2 h-full flex items-center flex-col justify-center text-center text-white z-10 tg Right
               transition-all duration-700 ease-in-out ${isActive ? 'right-0 opacity-100 visible' : '-right-[50%] opacity-0 invisible'}`}>
-            <div className="text-[35px] font-bold font-fit">Welcome!</div>
+            <div id='Logo' className='flex justify-center'>
+              <img className=" w-[20em] rounded-full" style={{ background: "radial-gradient(circle, #14b8a6 50%, white 100%)" }} src="/drugSpecIconwhite1.png" alt="" />
+            </div>
+            <div className="heading text-[35px] font-bold font-fit">Welcome!</div>
             <div className="my-1">Already Have an Account?</div>
             <button
               className="bg-none text-white p-2 w-1/3 border-2 border-solid border-white rounded-lg"
