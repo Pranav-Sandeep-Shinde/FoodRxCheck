@@ -45,14 +45,19 @@ const Home = ({ showHero }) => {
         {/* Profile or Sign-in Button */}
         {session ? (
           <div className="absolute top-0 right-0 mt-4">
-            <button
+            {/* <button
               className="md:inline-flex hidden items-center px-3 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors md:px-6 md:py-3"
               onClick={() => setShowProfile(!showProfile)}
             >
               <UserCircle2 className="mr-2 h-5 w-5" />
               <span className="hidden md:inline">{user?.full_name.split(' ')[0] || 'Profile'}</span>
+            </button> */}
+            <button
+              className="fixed bottom-10 right-10 flex items-center justify-center w-14 h-14 rounded-full bg-teal-600/80 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:bg-teal-700 active:scale-90 active:shadow-md"
+              onClick={() => setShowProfile(!showProfile)}
+            >
+              <UserCircle2 className="h-7 w-7" />
             </button>
-
             {/* Profile Dropdown */}
             {showProfile && (
               <div className="absolute right-0 mt-2 w-64 bg-white shadow-lg rounded-lg p-4 text-gray-900 z-50">
