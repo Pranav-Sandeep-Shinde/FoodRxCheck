@@ -54,7 +54,7 @@
 		left: 0;
 		top: -275%;
 		width: 100%;
-		height: 300%;
+		height: 305%;
 	}
 	.active .toggel-box::before {
 		left: 0;
@@ -78,6 +78,18 @@
 	.active .tg.Right {
 		bottom: 0;
 	}
+	.heading {
+		font-size: medium;
+	}
+	#register-box {
+		font-size: small;
+		display: flex;
+		flex-direction: column;
+	}
+	#Logo {
+		width: 33%;
+		height: fit-content;
+	}
 }
 
 @media screen and (max-width: 400px) {
@@ -90,5 +102,18 @@
 	.tg {
 		width: 100%;
 		height: 25%;
+	}
+	.heading {
+		font-size: medium;
+	}
+	#register-box {
+		font-size: small;
+		display: flex;
+		flex-direction: column;
+	}
+	#Logo {
+		width: 7rem;
+		height: 75%;
+		display: none;
 	}
 }

@@ -63,11 +63,11 @@ const Interactions = () => {
                 Back to list
             </button>
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                {/* {directionData.image_path && (
+                {directionData.image_path && (
                     <div onClick={openModal} className="h-64 cursor-pointer md:h-96 overflow-hidden relative">
                         <h2>{directionData?.mechanism_of_action}</h2>
                     </div>
-                )} */}
+                )}
                 <div className="p-8">
 
                 </div>
