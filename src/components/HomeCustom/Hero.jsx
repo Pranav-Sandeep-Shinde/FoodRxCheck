@@ -83,10 +83,10 @@ const Home = ({ showHero }) => {
           </div>
         ) : (
           <button
-            className="absolute bottom-0 right-0 mt-4 inline-flex items-center px-3 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            className="fixed bottom-10 right-10 flex items-center justify-center w-14 h-14 rounded-full bg-teal-600/80 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:bg-teal-700 active:scale-90 active:shadow-md"
             onClick={() => navigate('/auth')}
           >
-            <UserCircle2 className="mr-2 h-5 w-5" /> Sign in as HCP
+            <UserCircle2 className="h-7 w-7" />
           </button>
         )}
       </div>

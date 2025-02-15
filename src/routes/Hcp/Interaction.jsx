@@ -8,8 +8,21 @@ import supabase from "../../Supabase/supabase";
 import { Search, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 
+const fetchInteractions = async (id) => {
+    const { data, error } = await supabase
+        .from("interactions")
+        .select("*")
+        .eq("drug_id", id);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    console.log("interaction data is", data);
+    return data || [];
+};
 const Interactions = () => {
-    const { id, name } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -22,21 +35,31 @@ const Interactions = () => {
     };
 
 
+    // const { data: directionData, isLoading, error } = useQuery({
+    //     queryKey: ["food", id],
+    //     queryFn: async () => {
+    //         const { data, error } = await supabase
+    //             .from("interactions")
+    //             .select("*")
+    //             .eq("drug_id", id)
+    //         // .maybeSingle();
+    //         if (error) {
+    //             throw new Error(error.message);
+    //         }
+    //         console.log("interaction data is", data)
+    //         return data || [];
+    //     },
+    // });
+    // new approach for fetching data
     const { data: directionData, isLoading, error } = useQuery({
         queryKey: ["food", id],
-        queryFn: async () => {
-            const { data, error } = await supabase
-                .from("interactions")
-                .select("*")
-                .eq("drug_id", id)
-                .single();
-            if (error) {
-                throw new Error(error.message);
-            }
-            console.log("interaction data is", data)
-            return data;
-        },
+        queryFn: () => fetchInteractions(id),
+        staleTime: 60 * 1000,      // Data stays fresh for 1 minute
+        cacheTime: 5 * 60 * 1000,  // Cached data remains for 5 minutes
+        refetchOnWindowFocus: false,
+        retry: 1,                // Automatically retry once on failure
     });
+
     if (isLoading) {
         return (
             <div className="flex justify-center bg-slate-300 items-center h-screen">
@@ -52,7 +75,7 @@ const Interactions = () => {
             </div>
         );
     }
-    console.log(directionData);
+    console.log("drug data is", directionData);
     return (
         <div className="max-w-4xl mx-auto">
             <button
@@ -63,11 +86,22 @@ const Interactions = () => {
                 Back to list
             </button>
             <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                {directionData.image_path && (
-                    <div onClick={openModal} className="h-64 cursor-pointer md:h-96 overflow-hidden relative">
-                        <h2>{directionData?.mechanism_of_action}</h2>
+                {directionData ?
+                    <div>
+
+                        <h1 className="text-2xl font-bold">The food interaction is </h1>
+                        {directionData?.map((item, ind) => (
+                            <ul key={ind} className="text-xl font-semibold text-gray-800 mb-2 list-disc">
+                                <li >{item?.food}</li>
+                            </ul>
+                        ))}
+
                     </div>
-                )}
+                    :
+                    <div>
+                        <h1>No food interaction for this</h1>
+                    </div>
+                }
                 <div className="p-8">
 
                 </div>

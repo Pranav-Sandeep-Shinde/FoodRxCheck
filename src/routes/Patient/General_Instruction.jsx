@@ -9,22 +9,39 @@ import supabase from '../../Supabase/supabase';
 const InstructionsList = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const navigate = useNavigate();
+  const fetchGeneralInstructions = async () => {
+    const { data, error } = await supabase
+      .from("general_instructions")
+      .select("id,drug,image_path")
+      .order("drug", { ascending: true });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data;
+  };
+  // const { data: drugs, isLoading, error } = useQuery({
+  //   queryKey: ["general_instructions"],
+  //   queryFn: async () => {
+  //     const { data, error } = await supabase
+  //       .from("general_instructions")
+  //       .select("id,drug,image_path")
+  //       .order("drug", { ascending: true });
+
+  //     if (error) {
+  //       throw new Error(error.message);
+  //     }
+  //     return data;
+  //   },
+  // });
   const { data: drugs, isLoading, error } = useQuery({
     queryKey: ["general_instructions"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("general_instructions")
-        .select("id,drug,image_path")
-        .order("drug", { ascending: true });
-
-      if (error) {
-        throw new Error(error.message);
-      }
-      return data;
-    },
+    queryFn: fetchGeneralInstructions,
+    staleTime: 60 * 1000,      // Data remains fresh for 1 minute
+    cacheTime: 5 * 60 * 1000,  // Cache is kept for 5 minutes
+    refetchOnWindowFocus: false,
+    retry: 1,                // Retry once on failure
   });
-
-
 
   if (isLoading) {
     return (

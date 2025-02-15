@@ -4,6 +4,7 @@ import { Outlet } from 'react-router'
 import Navbar from './components/SideBar';
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [selectedDrugs, setSelectedDrugs] = useState([]); // ✅ Add selectedDrugs state
 
   useEffect(() => {
     const isAnimationDisplayed = sessionStorage.getItem("logoAnimationPlayed");
@@ -25,7 +26,8 @@ const App = () => {
     <div className='min-h-screen bg-gray-100'>
       {isVisible && <Navbar />} {/* Show navbar after 5 sec delay */}
       <main className='pt-16 md:pt-0'>
-        <Outlet />
+        {/* ✅ Pass selectedDrugs and setSelectedDrugs via context */}
+        <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
       </main>
 
     </div>
