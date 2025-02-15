@@ -15,8 +15,8 @@ const Navbar = () => {
     { page: 'general', icon: List, text: 'Instructions', description: 'Medical Guidelines' },
     { page: `${session ? 'profile' : 'auth'}`, icon: UserCircle, text: `${session ? 'Profile' : 'Auth'}`, description: 'Sign In As HCP' },
     { page: 'interactions', icon: Flask, text: 'Interactions', description: 'Drug Interactions' },
-    { page: 'nutrition', icon: Apple, text: 'Nutrition', description: 'Dietary Guidelines' },
-    { page: 'about', icon: Brain, text: 'About', description: 'About MedGuide' }
+    // { page: 'nutrition', icon: Apple, text: 'Nutrition', description: 'Dietary Guidelines' },
+    // { page: 'about', icon: Brain, text: 'About', description: 'About FoodRxChecker' }
   ];
   const onNavigate = (page) => {
     if (page === 'home') {
@@ -34,7 +34,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 px-4">
           <span className="flex items-center space-x-2 text-white">
             <Home className="h-6 w-6" />
-            <span className="font-bold text-xl">MedGuide</span>
+            <span className="font-bold text-xl">FoodRxCheck</span>
           </span>
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -61,7 +61,7 @@ const Navbar = () => {
               <span className={`font-bold text-xl whitespace-nowrap transition-opacity duration-300 
                 ${isSidebarExpanded ? 'opacity-100' : 'opacity-0'} 
                 group-hover:opacity-100`}>
-                MedGuide
+                FoodRxChecker
               </span>
             </span>
             <button

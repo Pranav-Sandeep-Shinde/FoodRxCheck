@@ -14,9 +14,10 @@ import General from './routes/Patient/General_Instruction.jsx';
 import Instruction from './routes/Patient/instructions.jsx';
 import PassReset from './routes/Auth/PassReset.jsx';
 import DrugList from './routes/Hcp/DrugList.jsx';
-import Interactions from './routes/Hcp/interaction.jsx';
+// import Interaction from './routes/Hcp/interaction.jsx';
+import Interaction from './routes/Patient/interactions.jsx';
 const queryClient = new QueryClient();
-
+import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -24,12 +25,14 @@ const router = createBrowserRouter(
       <Route path="/general" element={<General />} />
       <Route path="/general/:id" element={<Instruction />} />
       <Route path="/PasswordReset" element={<PassReset />} />
+      <Route path="/interactions" element={<Interaction />} />
+      <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} />
+      <Route path="/interactions" element={<Interaction />} />
       <Route index={true} path="/" element={<Home />} />
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
-      <Route path="/drugList" element={<DrugList />} />
-      <Route path="/drugList/:id" element={<Interactions />} />
+      <Route path="/drug-list" element={<DrugList />} /> {/* Single route for drugs */}
     </Route>
   )
 );
