@@ -15,7 +15,7 @@ const Navbar = () => {
     { page: 'general', icon: List, text: 'Instructions', description: 'Medical Guidelines' },
     { page: `${session ? 'profile' : 'auth'}`, icon: UserCircle, text: `${session ? 'Profile' : 'Auth'}`, description: 'Sign In As HCP' },
     { page: 'interactions', icon: Flask, text: 'Interactions', description: 'Drug Interactions' },
-    // { page: 'nutrition', icon: Apple, text: 'Nutrition', description: 'Dietary Guidelines' },
+    { page: 'FoodInteraction', icon: Apple, text: 'Food Interaction', description: 'Food Interaction' },
     // { page: 'about', icon: Brain, text: 'About', description: 'About FoodRxChecker' }
   ];
   const onNavigate = (page) => {
