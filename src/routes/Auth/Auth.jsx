@@ -5,6 +5,7 @@ import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 import supabase from '../../Supabase/supabase';
 import QualificationModal from '../../components/Qualification';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../context/ThemeContext';
 function AuthLayout() {
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState('');
@@ -13,7 +14,9 @@ function AuthLayout() {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [qualifications, setQualifications] = useState(null);
+  // const [role, setRole] = useState('patient');
   const navigate = useNavigate();
+  const { updateRole } = useTheme();
   const handleAddQualification = (qualification) => {
     setQualifications(qualification);
   };
@@ -42,6 +45,7 @@ function AuthLayout() {
       alert(`Login Error: ${error.message}`);
     } else {
       alert('Login successful!');
+      updateRole('hcp');  // Update role to 'hcp' after successful login
       navigate('/profile');
     }
     setLoading(false);
@@ -69,11 +73,12 @@ function AuthLayout() {
     if (error) {
       alert(`Registration Error: ${error.message}`);
     } else {
+      updateRole('hcp');  // Update role to 'hcp' after successful registration
       alert('successful! Please verify your email.');
     }
     setLoading(false);
   };
-
+  // sessionStorage.setItem('role', role);
   return (
     <div className="flex justify-center items-center min-h-screen w-full bg-gradient-to-r from-[#e2e2e2] to-[#c9d6ff]">
       <div className={`container relative bg-white rounded-[30px] shadow-lg overflow-hidden ${isActive ? 'active' : ''}`}>
