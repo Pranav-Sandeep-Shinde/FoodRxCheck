@@ -1,76 +1,88 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, MinusCircle, Trash2 } from "lucide-react";
-import { motion } from "framer-motion";
+import { useNavigate, useLocation } from "react-router-dom"; // Add useLocation hook
+import { Minus, Trash2 } from "lucide-react";
 
-export default function Drug_List() {
+const Drug_List = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // Get the location object to access passed state
   const [selectedDrugs, setSelectedDrugs] = useState([]);
 
-  // Load selected drugs from localStorage
   useEffect(() => {
-    const storedDrugs = JSON.parse(localStorage.getItem("selectedDrugs")) || [];
-    setSelectedDrugs(storedDrugs);
-  }, []);
+    // Check if state was passed via navigation, else fallback to localStorage
+    const drugsFromState = location.state?.selectedDrugs || JSON.parse(localStorage.getItem("selectedDrugs")) || [];
+    setSelectedDrugs(drugsFromState);
+  }, [location.state]); // Depend on location.state to update when passed state changes
 
-  // Remove a single drug from the list
   const removeDrug = (drugId) => {
     const updatedDrugs = selectedDrugs.filter((drug) => drug.drug_id !== drugId);
     setSelectedDrugs(updatedDrugs);
     localStorage.setItem("selectedDrugs", JSON.stringify(updatedDrugs));
   };
 
-  // Clear the entire list
   const clearAllDrugs = () => {
     setSelectedDrugs([]);
     localStorage.removeItem("selectedDrugs");
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 py-10">
       {/* Header */}
-      <div className="flex items-center justify-between bg-teal-600 text-white px-8 py-5 rounded-2xl shadow-md">
-        <button onClick={() => navigate(-1)} className="flex items-center text-lg font-medium">
-          <ArrowLeft size={20} className="mr-2" /> Selected Drugs
+      <div
+        className="flex items-center justify-between bg-teal-700 text-white px-8 py-6 rounded-xl shadow-xl max-w-5xl mx-auto transition-transform"
+        style={{ transform: "translateY(0)", opacity: 1 }}
+      >
+        <button
+          onClick={() => navigate(-1)}
+          className="text-xl font-semibold hover:underline transition hover:opacity-80"
+        >
+          ← Selected Drugs
         </button>
+
         {selectedDrugs.length > 0 && (
           <button
-            className="flex items-center bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-grey-800 transition"
+            className="flex items-center bg-transparent border-2 border-teal-500 text-teal-500 px-5 py-2 rounded-lg shadow-md hover:bg-teal-500 hover:text-white transition-transform transform hover:scale-105"
             onClick={clearAllDrugs}
           >
-            <Trash2 size={18} className="mr-2" /> Clear All
+            <Trash2 size={20} className="mr-2" /> Clear All
           </button>
         )}
       </div>
 
       {/* Drug List */}
-      <motion.div
-        className="flex flex-wrap gap-4 mt-6 justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10 max-w-6xl mx-auto">
         {selectedDrugs.length > 0 ? (
-          selectedDrugs.map((drug) => (
-            <motion.div
+          selectedDrugs.map((drug, index) => (
+            <div
               key={drug.drug_id}
-              className="relative bg-white shadow-md rounded-2xl p-4 flex items-center justify-between w-64 border border-gray-200 hover:shadow-lg transition"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
+              className="bg-white shadow-lg rounded-2xl p-6 flex flex-col items-center justify-center transition-all transform hover:-translate-y-2 hover:shadow-2xl w-full h-48 relative"
+              style={{
+                opacity: 1,
+                transform: `translateY(0)`,
+                transition: `opacity 0.3s, transform 0.3s ${index * 0.1}s`,
+              }}
             >
-              <h3 className="text-md font-semibold text-gray-800">{drug.drug_name}</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{drug.drug_name}</h3>
+
+              {/* Animated Remove Button */}
               <button
-                className="bg-green-500 text-white p-2 rounded-full hover:bg-green-00 transition"
+                className="absolute bottom-4 bg-gray-700 text-white p-3 rounded-full hover:bg-gray-900 transition transform hover:scale-110"
                 onClick={() => removeDrug(drug.drug_id)}
+                style={{
+                  transition: "transform 0.3s ease-in-out",
+                }}
               >
-                <MinusCircle size={18} />
+                <Minus size={22} />
               </button>
-            </motion.div>
+            </div>
           ))
         ) : (
-          <p className="text-center text-gray-600 mt-6">No drugs selected.</p>
+          <p className="text-center text-gray-600 col-span-full text-lg">
+            No drugs selected.
+          </p>
         )}
-      </motion.div>
+      </div>
     </div>
   );
-}
+};
+
+export default Drug_List;

@@ -34,7 +34,9 @@ const HcpfoodInteraction = () => {
         .select("food, mechanism_of_action, severity, management, reference")
         .eq("drug_id", drugId);
       if (error) throw error;
-      return data || [];
+      
+      // Filter out entries where food is "NA", null, or empty
+      return (data || []).filter(item => item.food && item.food.trim().toUpperCase() !== "NA");
     },
     enabled: !!drugId,
   });
@@ -50,36 +52,41 @@ const HcpfoodInteraction = () => {
       </div>
     );
 
-  if (!drug || interactions.length === 0)
+  if (!drug)
     return (
       <div className="p-6 max-w-lg mx-auto bg-yellow-100 text-yellow-700 rounded-xl shadow-md space-y-4">
         <h2 className="text-xl font-semibold">No Data Found</h2>
-        <p>We couldn't find any interaction details for this drug.</p>
+        <p>We couldn't find any drug details.</p>
       </div>
     );
 
   return (
-    <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+    <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
       {/* Header */}
       <div className="bg-teal-600 text-white p-4 flex items-center">
         <IoArrowBack className="text-2xl cursor-pointer" onClick={() => navigate("/hcpdruglist")} />
-        <h2 className="text-xl font-semibold ml-4">Food Interaction</h2>
+        <div className="ml-3">
+          <h2 className="text-xl font-semibold">Food Drug Interaction</h2>
+          <h3 className="text-lg">{drug.drug_name}</h3>
+        </div>
       </div>
 
       {/* Drug Name */}
-      <div className="p-4 border-b border-gray-300">
-        <h2 className="text-xl font-bold">Drug Name: {drug.drug_name}</h2>
+      <div className="p-4 border-b border-gray-300 bg-gray-100">
+        <p className="text-lg font-bold text-gray-800">
+          Total Food Interactions: <span className="text-xl text-black-700">{interactions?.length || 0}</span>
+        </p>
       </div>
 
       {/* Interaction Details */}
-      <div className="p-4">
+      <div className="p-4 bg-gray-50">
         {interactions.length > 0 ? (
           interactions.map((item, index) => (
             <details key={index} className="border border-gray-300 rounded-lg overflow-hidden mb-4">
               <summary className="bg-gray-100 p-4 text-lg font-semibold cursor-pointer">
                 {item.food || "Food Interaction"}
               </summary>
-              <div className="p-4 space-y-2 text-gray-800">
+              <div className="p-4 space-y-2 text-gray-800 bg-white">
                 <p><strong>Mechanism:</strong> {item.mechanism_of_action || "N/A"}</p>
                 <p><strong>Severity:</strong> {item.severity || "N/A"}</p>
                 <p><strong>Management:</strong> {item.management || "N/A"}</p>
@@ -96,5 +103,3 @@ const HcpfoodInteraction = () => {
 };
 
 export default HcpfoodInteraction;
-
-
