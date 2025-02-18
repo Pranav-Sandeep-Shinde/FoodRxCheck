@@ -29,7 +29,7 @@ const Navbar = () => {
     { page: `${session ? "profile" : "auth"}`, icon: UserCircle, text: `${session ? "Profile" : "Auth"}`, description: "Sign In As HCP" },
     role !== "hcp" && { page: "interactions", icon: Flask, text: "Drug Interaction", description: "Drug Interactions" },
     role == "hcp" && { page: "HcpDrugList", icon: Brain, text: "Drug", description: "Drug MedGuide" },
-    { page: 'classification', icon: Pill, text: 'Drug Classification', description: 'Drug Heirarchy' },
+    role == "hcp" && { page: 'classification', icon: Pill, text: 'Drug Classification', description: 'Drug Heirarchy' },
     { page: 'foodSearch', icon: Apple, text: 'Food Search', description: 'Food Search' },
   ].filter(Boolean);
   const onNavigate = (page) => {
