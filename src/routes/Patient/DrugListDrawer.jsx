@@ -1,102 +1,169 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Minus, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDrugs } from "../../context/DrugsProvider";
+import { useAuth } from "../../context/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import supabase from "../../Supabase/supabase";
 
-const DrugListDrawer = ({ selectedDrugs, setSelectedDrugs, drawerOpen, setDrawerOpen }) => {
-  const [hoveredDrug, setHoveredDrug] = useState(null);
+// Fetch drug interactions
+const fetchInteractions = async (selectedDrugs, isHcp) => {
+  const interactionsMap = {};
+
+  for (const drug of selectedDrugs) {
+    try {
+      const { data, error } = await supabase
+        .from(isHcp ? "interactions" : "patient_interactions")
+        .select("*")
+        .eq("drug_id", drug.drug_id);
+
+      if (error) {
+        console.error(`Error fetching interactions for ${drug.drug_name}:`, error);
+        continue;
+      }
+
+      const validInteractions = data
+        ?.map((item) => item.food)
+        .filter((food) => food && food !== "NA") || [];
+
+      interactionsMap[drug.drug_id] = {
+        count: validInteractions.length,
+        interactions: validInteractions,
+      };
+    } catch (err) {
+      console.error(`Unexpected error fetching ${drug.drug_name}:`, err);
+    }
+  }
+
+  return interactionsMap;
+};
+
+const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
+  const { selectedDrugs, setSelectedDrugs } = useDrugs();
+  const { isHcp } = useAuth() || {};
   const navigate = useNavigate();
+  const [hoveredDrug, setHoveredDrug] = useState(null);
 
-  const removeDrug = (drug) => {
-    const updatedDrugs = selectedDrugs.filter((d) => d.drug_id !== drug.drug_id);
+  const { data: interactionData } = useQuery({
+    queryKey: ["interactions", selectedDrugs.map((d) => d.drug_id).join(","), isHcp],
+    queryFn: () => fetchInteractions(selectedDrugs, isHcp),
+    enabled: selectedDrugs.length > 0,
+  });
+
+  const removeDrug = (drugId) => {
+    const updatedDrugs = selectedDrugs.filter((drug) => drug.drug_id !== drugId);
     setSelectedDrugs(updatedDrugs);
     localStorage.setItem("selectedDrugs", JSON.stringify(updatedDrugs));
   };
 
+  //  Sort drugs
+  const sortedDrugs = [...selectedDrugs].sort((a, b) => {
+    const aInteractions = interactionData?.[a.drug_id]?.count || 0;
+    const bInteractions = interactionData?.[b.drug_id]?.count || 0;
+    return bInteractions - aInteractions; // Higher count first
+  });
+
   return (
-    <AnimatePresence>
-      {drawerOpen && (
-        <motion.div
-          className="fixed top-0 right-0 h-full w-96 bg-white shadow-lg border-l border-gray-200 z-50 flex flex-col"
-          initial={{ x: 300 }}
-          animate={{ x: 0 }}
-          exit={{ x: 300 }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        >
-          {/* Drawer Header */}
-          <div className="flex justify-between items-center p-4 border-b border-gray-300">
-            <h3 className="text-lg font-semibold text-gray-800">Selected Drugs</h3>
-            <button onClick={() => setDrawerOpen(false)} className="text-gray-500 hover:text-gray-700">
-              <X size={24} />
-            </button>
-          </div>
+    <div
+      className={`fixed top-0 right-0 h-full w-96 bg-gray-50 shadow-lg border-l border-gray-300 z-50 flex flex-col transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+    >
+      {/* Header */}
+      <div className="flex justify-between items-center p-4 border-b border-gray-300 bg-blue-200">
+        <h3 className="text-lg font-semibold text-gray-900">Selected Drugs</h3>
+        <button onClick={() => setDrawerOpen(false)} className="text-gray-700 hover:text-gray-900">
+          <X size={24} />
+        </button>
+      </div>
 
-          {/* Drug List */}
-          <div className="p-4 space-y-2 overflow-y-auto flex-grow h-[calc(100%-100px)]">
-            {selectedDrugs.length > 0 ? (
-              selectedDrugs.map((drug) => (
-                <motion.div
-                  key={drug.drug_id}
-                  className="relative flex justify-between items-center bg-gray-100 p-3 rounded-md cursor-pointer hover:bg-gray-200 transition"
-                  onClick={() => navigate(`/food-interaction/${drug.drug_id}`)}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                >
-                  {/* ✅ Drug Name - Changed from Blue to a Neutral Color */}
-                  <span className="text-sm font-medium text-gray-800">{drug.drug_name}</span>
+      {/* Drug List */}
+      <div className="p-4 space-y-2 overflow-y-auto flex-grow h-[calc(100%-100px)]">
+        {sortedDrugs.length > 0 ? (
+          sortedDrugs.map((drug) => {
+            const interactions = interactionData?.[drug.drug_id]?.interactions || [];
+            const interactionCount = interactions.length;
+            const hasInteractions = interactionCount > 0;
 
-                  {/* Remove Button */}
+            //  Show "Counseling" if no interactions and user is NOT HCP
+            const showCounseling = !hasInteractions && !isHcp;
+
+            return (
+              <div
+                key={drug.drug_id}
+                className="relative flex flex-col bg-white p-3 rounded-md border border-gray-300 hover:bg-gray-100 transition"
+              >
+                <div className="flex justify-between items-center">
+                  <div>
+                    <span className="text-sm font-medium text-gray-900">{drug.drug_name}</span>
+                    <div className="text-xs text-gray-600">
+                      {hasInteractions ? `${interactionCount} food interaction(s) found` : "No known food interactions"}
+                    </div>
+                  </div>
+
                   <div className="relative flex flex-col items-center">
-                    <AnimatePresence>
-                      {hoveredDrug === drug.drug_id && (
-                        <motion.div
-                          className="absolute bottom-10 px-2 py-1 bg-gray-800 text-white text-xs rounded-md shadow-lg"
-                          initial={{ opacity: 0, y: 5 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 5 }}
-                        >
-                          Remove from list
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    {hoveredDrug === drug.drug_id && (
+                      <div className="absolute bottom-10 px-2 py-1 bg-gray-800 text-white text-xs rounded-md shadow-lg transition-opacity duration-300 opacity-100">
+                        Remove from list
+                      </div>
+                    )}
 
                     <button
-                      className="text-gray-700 hover:text-gray-900 p-2 rounded-full bg-gray-200 hover:bg-gray-300"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevents navigation when clicking remove
-                        removeDrug(drug);
-                      }}
+                      className="text-gray-700 hover:text-gray-900 p-2 rounded-full bg-gray-300 hover:bg-gray-400 transition"
+                      onClick={() => removeDrug(drug.drug_id)}
                       onMouseEnter={() => setHoveredDrug(drug.drug_id)}
                       onMouseLeave={() => setHoveredDrug(null)}
                     >
                       <Minus size={16} />
                     </button>
                   </div>
-                </motion.div>
-              ))
-            ) : (
-              <p className="text-gray-500 text-center">No drugs selected</p>
-            )}
-          </div>
+                </div>
 
-          {/* Clear All Button */}
-          {selectedDrugs.length > 0 && (
-            <div className="p-4 border-t border-gray-300">
-              <button
-                className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                onClick={() => {
-                  setSelectedDrugs([]);
-                  localStorage.removeItem("selectedDrugs");
-                }}
-              >
-                Clear All
-              </button>
-            </div>
-          )}
-        </motion.div>
+                <div className="mt-2 text-xs text-gray-700">
+                  {hasInteractions ? (
+                    interactions.map((food, index) => (
+                      <div key={index} className="text-gray-700">• {food}</div>
+                    ))
+                  ) : (
+                    <div>No food interactions found.</div>
+                  )}
+                </div>
+
+                {/*  Show "Counseling" if no interactions and user is NOT HCP */}
+                <button
+                  className="mt-2 px-4 py-1 text-sm font-medium text-white rounded-md transition"
+                  style={{ backgroundColor: "#127089" }}
+                  onClick={() =>
+                    navigate(showCounseling ? `/food-interaction/${drug.drug_id}` : `/food-interaction/${drug.drug_id}`)
+                  }
+                >
+                  {showCounseling ? "Counseling" : "More Details"}
+                </button>
+
+
+              </div>
+            );
+          })
+        ) : (
+          <p className="text-gray-500 text-center">No drugs selected</p>
+        )}
+      </div>
+
+      {/* Clear All Button */}
+      {selectedDrugs.length > 0 && (
+        <div className="p-4 border-t border-gray-300 bg-blue-200">
+          <button
+            className="w-full px-4 py-2 font-medium rounded-lg transition text-white"
+            style={{ backgroundColor: "#127089" }}
+            onClick={() => {
+              setSelectedDrugs([]);
+              localStorage.removeItem("selectedDrugs");
+            }}
+          >
+            Clear All
+          </button>
+        </div>
       )}
-    </AnimatePresence>
+    </div>
   );
 };
 
