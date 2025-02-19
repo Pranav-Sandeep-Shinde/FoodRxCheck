@@ -167,7 +167,7 @@ const FoodSearch = () => {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.98 }}
                                             className="p-6 bg-white rounded-xl shadow-xl cursor-pointer transform hover:shadow-2xl transition-all duration-300"
-                                            onClick={() => navigate(`/${'food-interaction'}/${drug.drug_id}`)}
+                                            onClick={() => navigate(`/${isHcp?'hcp_foodInteraction':'food-interaction'}/${drug.drug_id}`)}
                                         >
                                             <p className="text-xl font-semibold text-gray-800">{drug.drug_name}</p>
                                         </motion.div>
