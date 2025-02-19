@@ -3,16 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";  // ✅ Import useNavigate
 import supabase from "../../Supabase/supabase";
 
-type Drug = {
-  drug_id: number;
-  drug_name: string;
-};
-
 const DrugList = () => {
-  const { sub_class_id } = useParams<{ sub_class_id: string }>();
+  const { sub_class_id } = useParams();
   const navigate = useNavigate();  // ✅ Initialize navigation hook
 
-  const [subClassName, setSubClassName] = useState<string | null>(null);
+  const [subClassName, setSubClassName] = useState(null);
 
   const parsedSubClassId = Number(sub_class_id);
   console.log("🔹 Parsed subclass_id:", parsedSubClassId, "Type:", typeof parsedSubClassId);
@@ -38,7 +33,7 @@ const DrugList = () => {
     fetchSubClassName();
   }, [parsedSubClassId]);
 
-  const { data: drugs, isLoading, error } = useQuery<Drug[]>({
+  const { data: drugs, isLoading, error } = useQuery({
     queryKey: ["drugs", parsedSubClassId],
     queryFn: async () => {
       if (isNaN(parsedSubClassId)) return [];
@@ -83,7 +78,7 @@ const DrugList = () => {
           {drugs.map((drug) => (
             <div
               key={drug.drug_id}
-              onClick={() => navigate(`/interactions/${drug.drug_id}`)}  // ✅ Modify onClick to navigate
+              onClick={() => navigate(`/hcp_foodInteraction/${drug.drug_id}`)}  // ✅ Modify onClick to navigate
               className="w-[220px] h-[140px] bg-white/10 backdrop-blur-lg rounded-lg shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 cursor-pointer border-2 border-[#00796b] flex items-center justify-center text-center"
             >
               <p className="text-lg font-semibold text-black px-4">{drug.drug_name}</p>

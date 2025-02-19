@@ -40,12 +40,12 @@ const fetchInteractions = async (selectedDrugs, isHcp) => {
 
 const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
   const { selectedDrugs, setSelectedDrugs } = useDrugs();
-  const { isHcp } = useAuth() || {};
+  const { isHcp,user} = useAuth() || {};
   const navigate = useNavigate();
   const [hoveredDrug, setHoveredDrug] = useState(null);
 
   const { data: interactionData } = useQuery({
-    queryKey: ["interactions", selectedDrugs.map((d) => d.drug_id).join(","), isHcp],
+    queryKey: ["selectedinteractions", `${isHcp? user?.id : "patient"}`],
     queryFn: () => fetchInteractions(selectedDrugs, isHcp),
     enabled: selectedDrugs.length > 0,
   });

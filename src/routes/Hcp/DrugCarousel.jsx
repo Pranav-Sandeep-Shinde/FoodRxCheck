@@ -326,6 +326,7 @@ import { Search, PlusCircle, MinusCircle, Pill } from "lucide-react";
 import { motion } from "framer-motion";
 import supabase from "../../Supabase/supabase";
 import { useTheme } from "../../context/ThemeContext";
+import DrugListDrawer from "../Patient/DrugListDrawer";
 export default function DrugCarousel() {
   const { themeColor } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
@@ -335,6 +336,7 @@ export default function DrugCarousel() {
   const [searchExpanded, setSearchExpanded] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [selectedLetter, setSelectedLetter] = useState(""); // ✅ Added missing state
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const searchRef = useRef(null);
   const navigate = useNavigate();
 
@@ -387,34 +389,34 @@ export default function DrugCarousel() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white py-10 relative">
-      {/* 🔍 Search Bar */}
-      <div
-        ref={searchRef}
-        className="absolute top-8 left-36 transition-all duration-300 ease-in-out"
-        onMouseEnter={() => setSearchExpanded(true)}
-        onMouseLeave={() => setSearchExpanded(false)}
-      >
-        <motion.div
-          className="flex items-center bg-gray-100 rounded-full shadow-md p-2 border border-gray-300"
-          initial={{ width: 40 }}
-          animate={{ width: searchExpanded ? 250 : 40 }}
-          transition={{ duration: 0.3 }}
+     {/* 🔍 Search Bar */}
+        <div
+          ref={searchRef}
+          className="absolute top-8 left-1/2 transform -translate-x-1/2 md:left-36 transition-all duration-300 ease-in-out"
+          onMouseEnter={() => setSearchExpanded(true)}
+          onMouseLeave={() => setSearchExpanded(false)}
         >
-          <Search className="text-gray-500 cursor-pointer" size={24} />
-          {searchExpanded && (
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search drugs..."
-              className="ml-2 flex-1 bg-transparent outline-none text-gray-800"
-              autoFocus
-            />
-          )}
-        </motion.div>
-      </div>
+          <motion.div
+            className="flex items-center bg-gray-100 rounded-full shadow-md p-2 border border-gray-300"
+            initial={{ width: 40 }}
+            animate={{ width: searchExpanded ? 250 : 40 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Search className="text-gray-500 cursor-pointer" size={24} />
+            {searchExpanded && (
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search drugs..."
+            className="ml-2 flex-1 bg-transparent outline-none text-gray-800"
+            autoFocus
+          />
+            )}
+          </motion.div>
+        </div>
 
-      {/* 🏷️ Page Title */}
+        {/* 🏷️ Page Title */}
       <h1 className={`text-3xl font-bold px-4 py-2 transition-all duration-300 bg-${themeColor}-600 text-white rounded-md`}>
         Explore Drugs
       </h1>
@@ -432,7 +434,7 @@ export default function DrugCarousel() {
           🔠 Filter by First Letter
         </motion.h2>
         {["ABCDEFGHIJKLM", "NOPQRSTUVWXYZ"].map((row, rowIndex) => (
-          <div key={rowIndex} className="flex justify-center gap-2 mb-2 flex-wrap">
+          <div key={rowIndex} className="flex justify-center gap-2 mb-2 w-3/5 flex-wrap">
             {row.split("").map((letter) => (
               <button
                 key={letter}
@@ -453,7 +455,7 @@ export default function DrugCarousel() {
       {/* 🏷️ Selected Drugs Button with Hover Dropdown */}
       <motion.div className="absolute top-4 right-4">
         <motion.button
-          onClick={() => navigate("/druglist", { state: { selectedDrugs } })}
+          onClick={() => setDrawerOpen(true)}
           className="relative flex items-center gap-2 text-gray-800 hover:text-gray-600 transition 
                      hover:border hover:border-gray-400 rounded-full p-3 shadow-sm bg-white"
           onMouseEnter={() => setHovered(true)}
@@ -486,12 +488,14 @@ export default function DrugCarousel() {
           </motion.div>
         )}
       </motion.div>
-
+       
+      {/* Drug Drawer - Opens on Click */}
+      <DrugListDrawer drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
       {/* 📦 Drug Grid Display */}
       {isLoading && <p className="text-gray-500">Loading...</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
       {filteredDrugs.length > 0 && !isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3  gap-4 px-6">
+        <div className="grid grid-cols-1 md:grid-cols-3  gap-4 px-2">
           {filteredDrugs.map((drug) => (
             <div
               key={drug.drug_id}

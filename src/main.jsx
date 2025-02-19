@@ -30,7 +30,7 @@ import FoodSearch from './routes/Patient/FoodSearch.jsx';
 import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
 import SubClassList from './routes/Hcp/SubClassList.tsx'
 import DrugClassification from './routes/Hcp/Classlist.tsx'
-import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
+import DrugListClassification from './routes/Hcp/DrugListClassifcation.jsx'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -43,7 +43,7 @@ const router = createBrowserRouter(
       <Route path="/foodSearch" element={<FoodSearch />} />
       <Route path="/interactions" element={<Interaction />} />
       <Route index={true} path="/" element={<Home />} />
-      <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> {/* Add the DrugInteractionList route */}
+      {/* <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> Add the DrugInteractionList route */}
       {/* Drug Interaction & HCP Routes */}
       <Route path="/druglist" element={<Drug_List />} /> {/* ✅ Matches actual file name */}
       <Route path="/hcpdruglist" element={<DrugCarousel />} />
@@ -52,7 +52,7 @@ const router = createBrowserRouter(
       <Route path="/classification" element={<DrugClassification />} />
       <Route path="/sub-classes/:class_id" element={<SubClassList />} />
       <Route path="/drugs/:sub_class_id" element={<DrugListClassification />} />
-      <Route path="/interactions/:drug_id" element={<InteractionList />} />
+      {/* <Route path="/interactions/:drug_id" element={<InteractionList />} /> */}
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>

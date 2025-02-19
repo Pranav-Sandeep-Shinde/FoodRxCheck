@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import debounce from "lodash/debounce";
 import { Search, X, Loader2 } from "lucide-react";
+import {useAuth} from "../../context/AuthProvider";
 import supabase from "../../Supabase/supabase";
 
 const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
@@ -94,10 +95,11 @@ const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
 
 const FoodSearch = () => {
     const navigate = useNavigate();
+    const { isHcp } = useAuth();
     const [searchTerm, setSearchTerm] = useState("");
     const { data: drugs, isLoading, error, refetch } = useQuery({
         queryKey: ["searchDrugs", searchTerm],
-        queryFn: () => fetchDrugsByFood(searchTerm, "interactions", "drugs"),
+        queryFn: () => fetchDrugsByFood(searchTerm, `${isHcp ? 'interactions' : 'patient_interactions'}`, `${isHcp ? 'drugs' : 'patient_drugs'}`),
         enabled: false,
         cacheTime: 600000,  // Cache for 10 minutes
     });
@@ -165,7 +167,7 @@ const FoodSearch = () => {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.98 }}
                                             className="p-6 bg-white rounded-xl shadow-xl cursor-pointer transform hover:shadow-2xl transition-all duration-300"
-                                            onClick={() => navigate(`/drug-interaction/${drug.drug_id}/${drug.drug_name}`)}
+                                            onClick={() => navigate(`/${'food-interaction'}/${drug.drug_id}`)}
                                         >
                                             <p className="text-xl font-semibold text-gray-800">{drug.drug_name}</p>
                                         </motion.div>
