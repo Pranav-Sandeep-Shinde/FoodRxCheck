@@ -13,8 +13,22 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import General from './routes/Patient/General_Instruction.jsx';
 import Instruction from './routes/Patient/instructions.jsx';
 import PassReset from './routes/Auth/PassReset.jsx';
-import DrugList from './routes/Hcp/DrugList.jsx';
-import Interactions from './routes/Hcp/interaction.jsx';
+
+import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
+import { DrugsProvider } from './context/DrugsProvider.jsx';
+import Drug_List from './routes/Hcp/Drug_List.jsx';
+import DrugCarousel from './routes/Hcp/DrugCarousel.jsx';
+import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
+import InteractionList from './routes/Hcp/InteractionListClassification.tsx';
+import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
+import Interaction from './routes/Patient/interactions.jsx';
+import { ThemeProvider } from "./context/ThemeContext";
+import FoodSearch from './routes/Patient/FoodSearch.jsx';
+import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
+import SubClassList from './routes/Hcp/SubClassList.tsx'
+import DrugClassification from './routes/Hcp/Classlist.tsx'
+import DrugListClassification from './routes/Hcp/DrugListClassifcation.jsx'
+
 const queryClient = new QueryClient();
 
 const router = createBrowserRouter(
@@ -24,12 +38,60 @@ const router = createBrowserRouter(
       <Route path="/general" element={<General />} />
       <Route path="/general/:id" element={<Instruction />} />
       <Route path="/PasswordReset" element={<PassReset />} />
+
+      <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} />
+      <Route path="/foodSearch" element={<FoodSearch />} />
+      <Route path="/interactions" element={
+        <DrugsProvider moduleType="patient">
+          <Interaction />
+        </DrugsProvider>
+      } />
       <Route index={true} path="/" element={<Home />} />
+
+      {/* HCP Routes */}
+      <Route path="/druglist" element={
+        <DrugsProvider moduleType="hcp">
+          <Drug_List />
+        </DrugsProvider>
+      } />
+      <Route path="/hcpdruglist" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugCarousel />
+        </DrugsProvider>
+      } />
+      <Route path="/hcp_foodInteraction/:id" element={
+        <DrugsProvider moduleType="hcp">
+          <HcpfoodInteraction />
+        </DrugsProvider>
+      } />
+
+      {/* Classification routes wrapped in HCP DrugsProvider */}
+      <Route path="/classification" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugClassification />
+        </DrugsProvider>
+      } />
+      <Route path="/sub-classes/:class_id" element={
+        <DrugsProvider moduleType="hcp">
+          <SubClassList />
+        </DrugsProvider>
+      } />
+      <Route path="/drugs/:sub_class_id" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugListClassification />
+        </DrugsProvider>
+      } />
+
+      {/* Patient Routes wrapped in DrugsProvider */}
+      <Route path="/drug-list" element={
+        <DrugsProvider moduleType="patient">
+          <DrugListDrawer />
+        </DrugsProvider>
+      } />
+
       <Route path="" element={<PrivateRoute />}>
         <Route path="/profile" element={<Profile />} />
       </Route>
-      <Route path="/drugList" element={<DrugList />} />
-      <Route path="/drugList/:id" element={<Interactions />} />
     </Route>
   )
 );
@@ -37,9 +99,11 @@ const router = createBrowserRouter(
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>
 );
