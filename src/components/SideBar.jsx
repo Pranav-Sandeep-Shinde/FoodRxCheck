@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, X, Home, List, Info, Pill, FlaskRound as Flask, Apple, Brain, ChevronLeft, ChevronRight, UserCircle } from 'lucide-react';
+import { Menu, X, Home, List, Info, Pill, FlaskRound as Flask, Apple, Brain, ChevronLeft, ChevronRight, UserCircle, ClipboardCheck } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthProvider';
 import { useTheme } from '../context/ThemeContext';
@@ -10,6 +10,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { session } = useAuth();
+
   console.log(role)
 
   // Enhanced navigation items with icons and descriptions
@@ -26,7 +27,7 @@ const Navbar = () => {
   const navItems = [
     { page: "home", icon: Home, text: "Home", description: "Main Dashboard" },
     role !== "hcp" && { page: "general", icon: List, text: "General Instructions", description: "Direction of use" },
-    { page: `${session ? "profile" : "auth"}`, icon: UserCircle, text: `${session ? "Profile" : "Auth"}`, description: "Sign In As HCP" },
+    { page: `${session ? "profile" : "auth"}`, icon: UserCircle, text: `${session ? "Profile" : "Authenticate"}`, description: "Sign In As HCP" },
     role !== "hcp" && { page: "interactions", icon: Flask, text: "Drug Interaction", description: "Drug Interactions" },
     role == "hcp" && { page: "HcpDrugList", icon: Brain, text: "Drug", description: "Drug MedGuide" },
     role == "hcp" && { page: 'classification', icon: Pill, text: 'Drug Classification', description: 'Drug Heirarchy' },
@@ -52,7 +53,7 @@ const Navbar = () => {
           </span>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`text-white p-2 rounded-md hover:bg-${themeColor}-700 transition-colors`}
+            className={`mobile-view text-white p-2 rounded-md hover:bg-${themeColor}-700 transition-colors`}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -61,7 +62,7 @@ const Navbar = () => {
 
       {/* Desktop Floating Sidebar */}
       <nav
-        className={`hidden md:block fixed left-0 top-0 h-screen bg-white shadow-xl z-50 transition-all duration-300 
+        className={`hidden md:block  fixed left-0 top-0 h-screen bg-white shadow-xl z-50 transition-all duration-300 
           ${isSidebarExpanded ? 'w-64' : 'w-20'} 
           group hover:w-64`}
         onMouseEnter={() => setIsSidebarExpanded(true)}
@@ -69,11 +70,11 @@ const Navbar = () => {
       >
         <div className="flex flex-col h-full">
           {/* Logo Section */}
-          <div className={`h-16 bg-${themeColor}-600 flex items-center px-4 justify-between`}>
+          <div className={`${isSidebarExpanded ? 'h-16 bg-${themeColor}-600 flex items-center px-4 justify-between`' : 'justify-center h-16 bg-${themeColor}-600 flex items-center px-4`'}h-16 bg-${themeColor}-600 flex items-center px-4 justify-between`}>
             <span className="flex items-center space-x-2 text-white">
               <Home className="h-6 w-6 flex-shrink-0" />
               <span className={`font-bold text-xl whitespace-nowrap transition-opacity duration-300 
-                ${isSidebarExpanded ? 'opacity-100' : 'opacity-0'} 
+                ${isSidebarExpanded ? 'opacity-100' : 'hidden'} 
                 group-hover:opacity-100`}>
                 FoodRxChecker
               </span>
@@ -89,7 +90,7 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Items */}
-          <div className="flex-1 py-6 overflow-y-auto">
+          <div className="icons flex-1 py-6 overflow-y-auto">
             <div className="px-2 space-y-2">
               {navItems.map(({ page, icon: Icon, text, description }) => (
                 <button
@@ -98,7 +99,7 @@ const Navbar = () => {
                     onNavigate(page);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-4 pl-5 py-3 rounded-full transition-all duration-200 ease-in-out  ${location.pathname === `/${page}` || (page === 'home' && location.pathname === '/') ? `bg-teal-100 text-${themeColor}-700 shadow-sm` : `text-${themeColor}-600 hover:bg-${themeColor}-50`
+                  className={` w-full text-left px-4 pl-5 py-3 rounded-full transition-all duration-200 ease-in-out  ${location.pathname === `/${page}` || (page === 'home' && location.pathname === '/') ? `bg-${themeColor}-100 text-${themeColor}-700 shadow-sm` : `text-${themeColor}-600 hover:bg-${themeColor}-50`
                     }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -132,7 +133,7 @@ const Navbar = () => {
                       onNavigate(page);
                       setIsOpen(false);
                     }}
-                    className={`w-full text-left px-4 pl-5 py-3 rounded-lg transition-all duration-200 ease-in-out ${location.pathname === `/${page}` || (page === 'home' && location.pathname === '/') ? `bg-teal-100 text-${themeColor}-700 shadow-sm` : 'text-gray-600 hover:bg-gray-50'
+                    className={`w-full text-left px-4 pl-5 py-3 rounded-lg transition-all duration-200 ease-in-out ${location.pathname === `/${page}` || (page === 'home' && location.pathname === '/') ? `bg-${themeColor}-100 text-${themeColor}-700 shadow-sm` : 'text-gray-600 hover:bg-gray-50'
                       }}`}
                   >
                     <div className="flex items-center space-x-3">

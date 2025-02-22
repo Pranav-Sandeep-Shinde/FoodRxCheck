@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import debounce from "lodash/debounce";
 import { Search, X, Loader2 } from "lucide-react";
 import supabase from "../../Supabase/supabase";
-
+const role = sessionStorage.getItem("role");
 const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
     if (!food.trim()) return [];
 

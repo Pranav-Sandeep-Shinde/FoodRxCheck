@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom"; // Add useLocation hook
 import { Minus, Trash2 } from "lucide-react";
+import { useTheme } from "../../context/ThemeContext";
 
 const Drug_List = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Get the location object to access passed state
   const [selectedDrugs, setSelectedDrugs] = useState([]);
-
+  const { themeColor } = useTheme();
   useEffect(() => {
     // Check if state was passed via navigation, else fallback to localStorage
     const drugsFromState = location.state?.selectedDrugs || JSON.parse(localStorage.getItem("selectedDrugs")) || [];
@@ -28,7 +29,7 @@ const Drug_List = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 py-10">
       {/* Header */}
       <div
-        className="flex items-center justify-between bg-teal-700 text-white px-8 py-6 rounded-xl shadow-xl max-w-5xl mx-auto transition-transform"
+        className={`flex items-center justify-between bg-${themeColor}-700 text-white px-8 py-6 rounded-xl shadow-xl max-w-5xl mx-auto transition-transform`}
         style={{ transform: "translateY(0)", opacity: 1 }}
       >
         <button
@@ -40,7 +41,7 @@ const Drug_List = () => {
 
         {selectedDrugs.length > 0 && (
           <button
-            className="flex items-center bg-transparent border-2 border-teal-500 text-teal-500 px-5 py-2 rounded-lg shadow-md hover:bg-teal-500 hover:text-white transition-transform transform hover:scale-105"
+            className={`flex items-center bg-transparent border-2 border-${themeColor}-500 text-${themeColor}-500 px-5 py-2 rounded-lg shadow-md hover:bg-${themeColor}-500 hover:text-white transition-transform transform hover:scale-105`}
             onClick={clearAllDrugs}
           >
             <Trash2 size={20} className="mr-2" /> Clear All
