@@ -4,9 +4,11 @@ import { useAuth } from "../../context/AuthProvider";
 import supabase from '../../Supabase/supabase';
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTheme } from '../../context/ThemeContext';
+import { useNavigate } from 'react-router';
 const Profile = () => {
   const { user } = useAuth();
   const { logout, themeColor, role } = useTheme();  // Access the logout function from ThemeContext
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   let qualificationData = null;
   try {
@@ -14,7 +16,12 @@ const Profile = () => {
   } catch (error) {
     console.error("Error parsing qualification data:", error);
   }
-
+  const handleSignout = async () => {
+    await supabase.auth.signOut();
+    // queryClient.clear();
+    logout();
+    navigate('/');
+  }
   return (
     <div className={`min-h-screen bg-gradient-to-r from-gray-100 to-blue-100 flex flex-col items-center px-5 justify-center`}>
       <div className="h-[550px] w-full md:w-3/4 lg:w-1/2 bg-gradient-to-r from-blue-100 rounded-3xl shadow-lg px-2 py-10 overflow-auto pb-10">
@@ -61,7 +68,7 @@ const Profile = () => {
 
         {/* Sign Out Button */}
         <button
-          onClick={() => { supabase.auth.signOut(); logout() }}
+          onClick={() => { handleSignout() }}
           className={`w-full md:w-1/2 mt-6 flex items-center justify-center self-center mx-auto px-4 py-2 bg-${themeColor}-500 text-white font-bold rounded-lg shadow-lg hover:bg-sky-600`}
         >
           Sign out

@@ -11,7 +11,7 @@ const Navbar = () => {
   const location = useLocation();
   const { session } = useAuth();
 
-  console.log(role)
+  // console.log(role)
 
   // Enhanced navigation items with icons and descriptions
   // const navItems = [
@@ -41,7 +41,7 @@ const Navbar = () => {
       navigate(`/${page}`);
     }
   }
-  console.log("themeColor", themeColor);
+  // console.log("themeColor", themeColor);
   return (
     <>
       {/* Mobile Top Bar */}

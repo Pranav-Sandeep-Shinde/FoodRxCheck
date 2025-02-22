@@ -48,7 +48,7 @@ const Home = ({ showHero }) => {
       ];
     }
     // Check if the user is on a mobile device
-    console.log(steps);
+    // console.log(steps);
     if (window.innerWidth < 768) {
       // Remove a step that is not needed on mobile
       steps = steps.filter(step => step.element !== '.icons');
@@ -196,7 +196,7 @@ const Home = ({ showHero }) => {
 
               <button
                 className={`instruction inline-flex items-center px-6 py-3 bg-${themeColor}-600 text-white rounded-lg hover:bg-${themeColor}-700 transition-colors`}
-                onClick={navigate('/general')}
+                onClick={() => navigate('/general')}
               >
                 View General Instructions
                 <ArrowRight className="ml-2 h-5 w-5" />

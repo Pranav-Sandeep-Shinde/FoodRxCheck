@@ -74,7 +74,7 @@ const InstructionsList = () => {
   );
 
 
-  console.log("data is in HCP", filteredDrugs);
+  // console.log("data is in HCP", filteredDrugs);
   return (
 
     <div className="max-w-full md:px-28 px-4 py-8 md:ml-20 transition-all duration-300">
