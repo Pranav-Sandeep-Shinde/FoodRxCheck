@@ -31,6 +31,7 @@ import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
 import SubClassList from './routes/Hcp/SubClassList.tsx'
 import DrugClassification from './routes/Hcp/Classlist.tsx'
 import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
+// import { SidebarProvider } from './context/SideBarContext.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -65,11 +66,13 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        {/* <SidebarProvider> */}
         <AuthProvider>
           <DrugsProvider>
             <RouterProvider router={router} />
           </DrugsProvider>
         </AuthProvider>
+        {/* </SidebarProvider> */}
       </ThemeProvider>
     </QueryClientProvider>
   </StrictMode>
