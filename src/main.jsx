@@ -44,7 +44,7 @@ const router = createBrowserRouter(
       <Route path="/foodSearch" element={<FoodSearch />} />
       <Route path="/interactions" element={<Interaction />} />
       <Route index={true} path="/" element={<Home />} />
-      <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> {/* Add the DrugInteractionList route */}
+      <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="patient_interactions" />} /> {/* Add the DrugInteractionList route */}
       {/* Drug Interaction & HCP Routes */}
       <Route path="/druglist" element={<Drug_List />} /> {/* ✅ Matches actual file name */}
       <Route path="/hcpdruglist" element={<DrugCarousel />} />
