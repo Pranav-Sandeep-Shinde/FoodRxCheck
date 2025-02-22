@@ -42,13 +42,50 @@ const router = createBrowserRouter(
       {/* <Route path="/interactions" element={<Interaction />} /> */}
       <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} />
       <Route path="/foodSearch" element={<FoodSearch />} />
-      <Route path="/interactions" element={<Interaction />} />
+      <Route path="/interactions" element={<DrugsProvider moduleType="patient">
+        <Interaction />
+      </DrugsProvider>} />
       <Route index={true} path="/" element={<Home />} />
       <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> {/* Add the DrugInteractionList route */}
       {/* Drug Interaction & HCP Routes */}
-      <Route path="/druglist" element={<Drug_List />} /> {/* ✅ Matches actual file name */}
-      <Route path="/hcpdruglist" element={<DrugCarousel />} />
-      <Route path="/hcp_foodInteraction/:id" element={<HcpfoodInteraction />} />
+      <Route path="/druglist" element={
+        <DrugsProvider moduleType="hcp">
+          <Drug_List />
+        </DrugsProvider>
+      } />
+      <Route path="/hcpdruglist" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugCarousel />
+        </DrugsProvider>
+      } />
+      <Route path="/hcp_foodInteraction/:id" element={
+        <DrugsProvider moduleType="hcp">
+          <HcpfoodInteraction />
+        </DrugsProvider>
+      } />
+      {/* Classification routes wrapped in HCP DrugsProvider */}
+      <Route path="/classification" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugClassification />
+        </DrugsProvider>
+      } />
+      <Route path="/sub-classes/:class_id" element={
+        <DrugsProvider moduleType="hcp">
+          <SubClassList />
+        </DrugsProvider>
+      } />
+      <Route path="/drugs/:sub_class_id" element={
+        <DrugsProvider moduleType="hcp">
+          <DrugListClassification />
+        </DrugsProvider>
+      } />
+
+      {/* Patient Routes wrapped in DrugsProvider */}
+      <Route path="/drug-list" element={
+        <DrugsProvider moduleType="patient">
+          <DrugListDrawer />
+        </DrugsProvider>
+      } />
       {/* Classification routes */}
       <Route path="/classification" element={<DrugClassification />} />
       <Route path="/sub-classes/:class_id" element={<SubClassList />} />
