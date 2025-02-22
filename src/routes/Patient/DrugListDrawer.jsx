@@ -39,8 +39,8 @@ const fetchInteractions = async (selectedDrugs, isHcp) => {
 };
 
 const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
-  const { selectedDrugs, setSelectedDrugs } = useDrugs();
-  const { isHcp } = useAuth() || {};
+  const { selectedDrugs, removeDrug, clearAllDrugs } = useDrugs();
+  const { isHcp } = useAuth(); // ✅ Moved inside component function
   const navigate = useNavigate();
   const [hoveredDrug, setHoveredDrug] = useState(null);
 
@@ -50,23 +50,19 @@ const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
     enabled: selectedDrugs.length > 0,
   });
 
-  const removeDrug = (drugId) => {
-    const updatedDrugs = selectedDrugs.filter((drug) => drug.drug_id !== drugId);
-    setSelectedDrugs(updatedDrugs);
-    localStorage.setItem("selectedDrugs", JSON.stringify(updatedDrugs));
-  };
-
-  //  Sort drugs
+  // Sort drugs based on interaction count (higher first)
   const sortedDrugs = [...selectedDrugs].sort((a, b) => {
     const aInteractions = interactionData?.[a.drug_id]?.count || 0;
     const bInteractions = interactionData?.[b.drug_id]?.count || 0;
-    return bInteractions - aInteractions; // Higher count first
+    return bInteractions - aInteractions;
   });
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-96 bg-gray-50 shadow-lg border-l border-gray-300 z-50 flex flex-col transform transition-transform duration-300 ${drawerOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+      className={`fixed top-0 right-0 h-full w-96 bg-gray-50 shadow-lg border-l border-gray-300 z-50 flex flex-col transform transition-transform duration-300 ${
+        drawerOpen ? "translate-x-0" : "translate-x-full"
+      }`}
+      onMouseLeave={() => setDrawerOpen(false)} // ✅ Close drawer on hover outside
     >
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-300 bg-blue-200">
@@ -83,8 +79,6 @@ const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
             const interactions = interactionData?.[drug.drug_id]?.interactions || [];
             const interactionCount = interactions.length;
             const hasInteractions = interactionCount > 0;
-
-            //  Show "Counseling" if no interactions and user is NOT HCP
             const showCounseling = !hasInteractions && !isHcp;
 
             return (
@@ -118,28 +112,22 @@ const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
                   </div>
                 </div>
 
-                <div className="mt-2 text-xs text-gray-700">
-                  {hasInteractions ? (
-                    interactions.map((food, index) => (
+                {/* ✅ Only display interactions list */}
+                {hasInteractions && (
+                  <div className="mt-2 text-xs text-gray-700">
+                    {interactions.map((food, index) => (
                       <div key={index} className="text-gray-700">• {food}</div>
-                    ))
-                  ) : (
-                    <div>No food interactions found.</div>
-                  )}
-                </div>
+                    ))}
+                  </div>
+                )}
 
-                {/*  Show "Counseling" if no interactions and user is NOT HCP */}
                 <button
                   className="mt-2 px-4 py-1 text-sm font-medium text-white rounded-md transition"
                   style={{ backgroundColor: "#127089" }}
-                  onClick={() =>
-                    navigate(showCounseling ? `/food-interaction/${drug.drug_id}` : `/food-interaction/${drug.drug_id}`)
-                  }
+                  onClick={() => navigate(isHcp ? `/hcp_foodInteraction/${drug.drug_id}` : `/food-interaction/${drug.drug_id}`)}
                 >
                   {showCounseling ? "Counseling" : "More Details"}
                 </button>
-
-
               </div>
             );
           })
@@ -151,14 +139,7 @@ const DrugListDrawer = ({ drawerOpen, setDrawerOpen }) => {
       {/* Clear All Button */}
       {selectedDrugs.length > 0 && (
         <div className="p-4 border-t border-gray-300 bg-blue-200">
-          <button
-            className="w-full px-4 py-2 font-medium rounded-lg transition text-white"
-            style={{ backgroundColor: "#127089" }}
-            onClick={() => {
-              setSelectedDrugs([]);
-              localStorage.removeItem("selectedDrugs");
-            }}
-          >
+          <button className="w-full px-4 py-2 font-medium rounded-lg transition text-white" style={{ backgroundColor: "#127089" }} onClick={clearAllDrugs}>
             Clear All
           </button>
         </div>
