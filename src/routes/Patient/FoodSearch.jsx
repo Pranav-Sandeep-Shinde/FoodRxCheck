@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import debounce from "lodash/debounce";
 import { Search, X, Loader2 } from "lucide-react";
 import supabase from "../../Supabase/supabase";
-const role = sessionStorage.getItem("role");
+import { useTheme } from "../../context/ThemeContext";
 const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
     if (!food.trim()) return [];
 
@@ -35,6 +35,7 @@ const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
 };
 
 const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
+    const { themeColor } = useTheme();
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
     const placeholders = useMemo(() => [
         "Search for Tea interactions...",
@@ -58,7 +59,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
                     type="text"
-                    className="w-full p-4 pl-12 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-300"
+                    className={`w-full p-4 pl-12 text-lg border border-gray-300 rounded-lg shadow-md focus:ring-2 focus:ring-${themeColor}-500 focus:border-${themeColor}-500 transition-all duration-300`}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     disabled={isLoading}
@@ -81,18 +82,19 @@ const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
                 )}
                 {isLoading && (
                     <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
-                        <Loader2 className="h-5 w-5 animate-spin text-teal-500" />
+                        <Loader2 className={`h-5 w-5 animate-spin text-${themeColor}-500`} />
                     </div>
                 )}
             </div>
             {isLoading && (
-                <div className="absolute left-0 bottom-0 w-full h-1 bg-teal-500 rounded-b-lg animate-pulse"></div>
+                <div className={`absolute left-0 bottom-0 w-full h-1 bg-${themeColor}-500 rounded-b-lg animate-pulse`}></div>
             )}
         </div>
     );
 };
 
 const FoodSearch = () => {
+    const { themeColor } = useTheme();
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
     const { data: drugs, isLoading, error, refetch } = useQuery({
@@ -198,7 +200,7 @@ const FoodSearch = () => {
                                     }`}
                                 onClick={() => !isLoading && setSearchTerm(food.name)}
                             >
-                                <div className="flex items-center justify-center h-24 w-24 bg-teal-100 rounded-full mb-4">
+                                <div className={`flex items-center justify-center h-24 w-24 bg-${themeColor}-100 rounded-full mb-4`}>
                                     <p className="text-3xl">{food.emoji}</p>
                                 </div>
                                 <p className="mt-2">{food.name}</p>
