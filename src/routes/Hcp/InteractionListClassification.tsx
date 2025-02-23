@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import supabase from "../../Supabase/supabase";
+import  supabase  from "../../Supabase/supabase";
 import { IoArrowBack } from "react-icons/io5";
 
 const InteractionList = () => {
   const { drug_id } = useParams();
+  const { class_id } = useParams();
   const navigate = useNavigate();
+  console.log("Class ID for direct interaction:", class_id);
 
   useEffect(() => {
     console.log("Received Drug ID:", drug_id);
