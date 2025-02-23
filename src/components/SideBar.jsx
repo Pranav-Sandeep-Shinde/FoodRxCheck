@@ -179,7 +179,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { session } = useAuth();
-
   // Navigation Items
   const navItems = [
     { page: "home", icon: Home, text: "Home", description: "Main Dashboard" },
@@ -190,10 +189,10 @@ const Navbar = () => {
       description: "Direction of use",
     },
     {
-      page: `${session ? "profile" : "auth"}`,
+      page: `${role == 'hcp' ? "profile" : "auth"}`,
       icon: UserCircle,
-      text: `${session ? "Profile" : "Auth"}`,
-      description: `${session ? "View your Profile" : "Sign In As HCP"}`,
+      text: `${role == 'hcp' ? "Profile" : "Auth"}`,
+      description: `${role == 'hcp' ? "View your Profile" : "Sign In As HCP"}`,
     },
     role !== "hcp" && {
       page: "interactions",

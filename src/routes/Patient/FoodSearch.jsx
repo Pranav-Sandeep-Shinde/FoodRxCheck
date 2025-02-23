@@ -35,7 +35,8 @@ const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
 };
 
 const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
-    const { themeColor } = useTheme();
+    const { themeColor, role } = useTheme();
+
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
     const placeholders = useMemo(() => [
         "Search for Tea interactions...",
