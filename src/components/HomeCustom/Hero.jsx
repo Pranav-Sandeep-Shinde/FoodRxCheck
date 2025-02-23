@@ -122,7 +122,7 @@ const Home = ({ showHero }) => {
             </button> */}
                   <button
                     className="profile fixed bottom-10 right-10 flex items-center justify-center w-14 h-14 rounded-full bg-teal-600/80 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:bg-teal-700 active:scale-90 active:shadow-md"
-                    onClick={() => setShowProfile(!showProfile)}
+                    onClick={() => role == 'hcp' ? setShowProfile(true) : navigate('/auth')}
                   >
                     <UserCircle2 className="h-7 w-7" />
                   </button>
