@@ -13,6 +13,7 @@ const Home = ({ showHero }) => {
   const { session, user } = useAuth();
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
+  console.log(showProfile);
   // const role = sessionStorage.getItem('role');
   const driverInstance = useRef(null);
   useEffect(() => {
