@@ -16,6 +16,7 @@ const ClassList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
+  const [hoveredDot, setHoveredDot] = useState<number | null>(null);
 
   const { data: classes, isLoading, error } = useQuery<Class[]>({
     queryKey: ["classes"],
@@ -181,7 +182,7 @@ const ClassList = () => {
       </div>
 
         {/* Timer Circle - Below Carousel */}
-        <div className="relative mt-12 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative mt-8 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
         <svg className="h-10 w-10 -rotate-90 transform">
           <circle className="stroke-white/30" fill="none" strokeWidth="2" r="16" cx="20" cy="20" />
           <circle
@@ -198,20 +199,32 @@ const ClassList = () => {
         </svg>
       </div>
 
-      {/* Dots Navigation */}
-      <div className="mt-8 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
-        {filteredClasses.map((_, index) => (
-          <button
+      {/* Navigation Dots - Below Timer */}
+      <div className="mt-4 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
+        {filteredClasses?.map((slide, index) => (
+          <div
             key={index}
-            onClick={() => {
-              setCurrentIndex(index);
-              setProgress(0);
-            }}
-            className={`h-1.5 rounded-full transition-all ${
-              currentIndex === index ? "bg-white w-5" : "bg-white/50 w-1.5"
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
+            className="relative"
+            onMouseEnter={() => setHoveredDot(index)} // Show title on hover
+            onMouseLeave={() => setHoveredDot(null)} // Hide title on mouse leave
+          >
+            <button
+              onClick={() => {
+                setCurrentIndex(index);
+                setProgress(0);
+              }}
+              className={`h-1.5 rounded-full transition-all ${
+                currentIndex === index ? "bg-white w-5" : "bg-white/50 w-1.5"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+            {/* Tooltip for the dot */}
+            {hoveredDot === index && (
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/70 text-white text-sm px-2 py-1 rounded-md whitespace-nowrap">
+                {slide.class_name}
+              </div>
+            )}
+          </div>
         ))}
       </div>
     </div>
