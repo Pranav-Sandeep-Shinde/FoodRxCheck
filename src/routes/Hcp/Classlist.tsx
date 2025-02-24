@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import  supabase  from "../../Supabase/supabase";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Navbar from "../../components/SideBar";
 
 type Class = {
   class_id: number;
@@ -17,6 +18,7 @@ const ClassList = () => {
   const [progress, setProgress] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredDot, setHoveredDot] = useState<number | null>(null);
+
 
   const { data: classes, isLoading, error } = useQuery<Class[]>({
     queryKey: ["classes"],
@@ -46,6 +48,20 @@ const ClassList = () => {
   }, [filteredClasses]);
 
   useEffect(() => {
+    const disableCtrlZoom = (event: WheelEvent) => {
+      if (event.ctrlKey) {
+        event.preventDefault();
+      }
+    };
+  
+    window.addEventListener("wheel", disableCtrlZoom, { passive: false });
+  
+    return () => {
+      window.removeEventListener("wheel", disableCtrlZoom);
+    };
+  }, []);  
+
+  useEffect(() => {
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -72,7 +88,8 @@ const ClassList = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen bg-white-900 p-4 sm:p-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white-900 p-4 sm:p-6">
+      <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 text-center drop-shadow-lg mt-4">Classes</h1>
       {/* Search Bar */}
       <div className="w-full max-w-xs sm:max-w-md ">
         <input
@@ -80,12 +97,11 @@ const ClassList = () => {
           placeholder="Search for Classes..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00796b] focus:outline-none mb-4 sm:mb-6"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#111111] focus:outline-none mb-4 sm:mb-6"
         />
       </div>
 
       {/* Carousel Container */}
-      <div>
       <div className="relative w-full max-w-xs sm:max-w-lg h-[300px] sm:h-[400px] mt-5">
         <div className="relative flex justify-center items-center perspective-1000 w-full h-full">
         {filteredClasses.map((cls, index) => {
@@ -111,7 +127,6 @@ const ClassList = () => {
               zIndex = 1;
               opacity = 0;
             }
-            
 
             return (
               <div
@@ -164,12 +179,11 @@ const ClassList = () => {
             );
           })}
         </div>
-        </div>
 
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-50"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-50 "
         >
           <ChevronLeft className="text-white w-6 h-6" />
         </button>
@@ -182,7 +196,7 @@ const ClassList = () => {
       </div>
 
         {/* Timer Circle - Below Carousel */}
-        <div className="relative mt-8 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative mt-12 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
         <svg className="h-10 w-10 -rotate-90 transform">
           <circle className="stroke-white/30" fill="none" strokeWidth="2" r="16" cx="20" cy="20" />
           <circle
@@ -201,7 +215,7 @@ const ClassList = () => {
 
       {/* Navigation Dots - Below Timer */}
       <div className="mt-4 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
-        {filteredClasses?.map((slide, index) => (
+ .       {classes?.map((slide, index) => (
           <div
             key={index}
             className="relative"
@@ -216,7 +230,7 @@ const ClassList = () => {
               className={`h-1.5 rounded-full transition-all ${
                 currentIndex === index ? "bg-white w-5" : "bg-white/50 w-1.5"
               }`}
-              aria-label={`Go to slide ${index + 1}`}
+               aria-label={`Go to slide ${index + 1}`}
             />
             {/* Tooltip for the dot */}
             {hoveredDot === index && (
