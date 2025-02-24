@@ -31,6 +31,7 @@ import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
 import SubClassList from './routes/Hcp/SubClassList.tsx'
 import DrugClassification from './routes/Hcp/Classlist.tsx'
 import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
+import Suggestions from './routes/Suggestions.jsx'
 // import { SidebarProvider } from './context/SideBarContext.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,6 +64,7 @@ const router = createBrowserRouter(
           <HcpfoodInteraction />
         </DrugsProvider>
       } />
+      <Route path="/suggestions" element={<Suggestions />} />
       {/* Classification routes wrapped in HCP DrugsProvider */}
       <Route path="/classification" element={
         <DrugsProvider moduleType="hcp">

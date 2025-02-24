@@ -166,12 +166,13 @@ import {
   FlaskRound as Flask,
   Apple,
   Brain,
+  ClipboardCheck
+
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
-
 const Navbar = () => {
   const { themeColor, role } = useTheme();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -213,6 +214,7 @@ const Navbar = () => {
       description: "Drug Hierarchy",
     },
     { page: "foodSearch", icon: Apple, text: "Food Search", description: "Food Search" },
+    { page: 'suggestions', icon: ClipboardCheck, text: 'Suggestions', description: 'Suggestions' },
   ].filter(Boolean);
 
   const onNavigate = (page) => {
