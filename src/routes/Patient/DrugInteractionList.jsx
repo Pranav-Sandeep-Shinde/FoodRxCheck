@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -6,23 +6,40 @@ import supabase from "../../Supabase/supabase";
 import parseAndRenderText from "../../utils/parseAndRenderText";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useTheme } from "../../context/ThemeContext";
 
 const fetchDrugDetails = async ({ queryKey }) => {
-  const [tableName, id] = queryKey;
+  const [interaction_table, id] = queryKey;
+  if (!interaction_table || !id) return [];
+  
   console.log("Query Key", queryKey);
-  const { data, error } = await supabase.from(tableName).select('*').eq('drug_id', id);
+  const { data, error } = await supabase.from(interaction_table).select('*').eq('drug_id', id);
   if (error) throw new Error(error.message);
   console.log(data);
   return data || [];
 };
 
-const DrugInteractionList = ({ tableName }) => {
+const DrugInteractionList = () => {
   const { id, name } = useParams();
+  const { role } = useTheme();
   const [expandedItems, setExpandedItems] = useState({});
+  const [drugs_table, setDrugTable] = useState("");
+  const [interaction_table, setInteractionTable] = useState("");
+  
+  useEffect(() => {
+    if (role === "patient") {
+      setDrugTable("patient_drugs");
+      setInteractionTable("patient_interactions");
+    } else {
+      setDrugTable("drugs");
+      setInteractionTable("interactions");
+    }
+  }, [role]);
 
-  const { data: drugDetails, isLoading, error } = useQuery({
-    queryKey: [tableName, id],
+  const { data: drugDetails = [], isLoading, error } = useQuery({
+    queryKey: [interaction_table, id],
     queryFn: fetchDrugDetails,
+    enabled: Boolean(interaction_table && id),
   });
 
   if (isLoading)
@@ -30,16 +47,16 @@ const DrugInteractionList = ({ tableName }) => {
   if (error) return <p className="text-red-500 text-center">Error: {error.message}</p>;
 
   const dataWithCounsellingTips =
-    tableName === "patient_interactions" && drugDetails?.[0]?.food !== "NA"
+    interaction_table === "patient_interactions" && drugDetails.length > 0 && drugDetails[0]?.food !== "NA"
       ? [
-        ...drugDetails,
-        {
-          drug_id: id,
-          food: "",
-          counselling_tips: drugDetails[0]?.counselling_tips,
-          isCounsellingTips: true,
-        },
-      ]
+          ...drugDetails,
+          {
+            drug_id: id,
+            food: "",
+            counselling_tips: drugDetails[0]?.counselling_tips,
+            isCounsellingTips: true,
+          },
+        ]
       : drugDetails;
 
   const renderInteractionItem = (item, index) => {
@@ -98,10 +115,7 @@ const DrugInteractionList = ({ tableName }) => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Sidebar Placeholder (Ensure space for sidebar) */}
       <div className="hidden md:block w-1/4 bg-gray-200 p-4">Sidebar</div>
-
-      {/* Main Content */}
       <div className="w-full md:w-3/4 p-8">
         <motion.div
           initial={{ opacity: 0, y: -10 }}
@@ -114,7 +128,7 @@ const DrugInteractionList = ({ tableName }) => {
           </h2>
         </motion.div>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-auto">
-          {dataWithCounsellingTips?.map((item, index) => renderInteractionItem(item, index))}
+          {dataWithCounsellingTips.map((item, index) => renderInteractionItem(item, index))}
         </div>
       </div>
     </div>
