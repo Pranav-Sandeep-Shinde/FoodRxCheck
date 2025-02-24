@@ -10,6 +10,7 @@ import "driver.js/dist/driver.css";
 // console.log(themeColor);
 const Home = ({ showHero }) => {
   const { themeColor, logout, role } = useTheme();
+  const color = "bg-teal-100";
   const { session, user } = useAuth();
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);

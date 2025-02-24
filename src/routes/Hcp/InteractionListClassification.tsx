@@ -3,8 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import supabase from "../../Supabase/supabase";
 import { IoArrowBack } from "react-icons/io5";
-
+import { useTheme } from "../../context/ThemeContext";
 const InteractionList = () => {
+  const { themeColor } = useTheme();
   const { drug_id } = useParams();
   const navigate = useNavigate();
 
@@ -63,7 +64,7 @@ const InteractionList = () => {
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
       {/* Header */}
-      <div className="bg-teal-600 text-white p-4 flex items-center">
+      <div className={`bg-${themeColor}-600 text-white p-4 flex items-center`}>
         <IoArrowBack className="text-2xl cursor-pointer" onClick={() => navigate(-1)} />  
         <div className="ml-3">
           <h2 className="text-xl font-semibold">Food Drug Interaction</h2>
