@@ -11,7 +11,7 @@ import { useTheme } from "../../context/ThemeContext";
 const fetchDrugDetails = async ({ queryKey }) => {
   const [interaction_table, id] = queryKey;
   if (!interaction_table || !id) return [];
-  
+
   console.log("Query Key", queryKey);
   const { data, error } = await supabase.from(interaction_table).select('*').eq('drug_id', id);
   if (error) throw new Error(error.message);
@@ -25,7 +25,7 @@ const DrugInteractionList = () => {
   const [expandedItems, setExpandedItems] = useState({});
   const [drugs_table, setDrugTable] = useState("");
   const [interaction_table, setInteractionTable] = useState("");
-  
+
   useEffect(() => {
     if (role === "patient") {
       setDrugTable("patient_drugs");
@@ -49,14 +49,14 @@ const DrugInteractionList = () => {
   const dataWithCounsellingTips =
     interaction_table === "patient_interactions" && drugDetails.length > 0 && drugDetails[0]?.food !== "NA"
       ? [
-          ...drugDetails,
-          {
-            drug_id: id,
-            food: "",
-            counselling_tips: drugDetails[0]?.counselling_tips,
-            isCounsellingTips: true,
-          },
-        ]
+        ...drugDetails,
+        {
+          drug_id: id,
+          food: "",
+          counselling_tips: drugDetails[0]?.counselling_tips,
+          isCounsellingTips: true,
+        },
+      ]
       : drugDetails;
 
   const renderInteractionItem = (item, index) => {
@@ -100,7 +100,7 @@ const DrugInteractionList = () => {
                   </p>
                 )}
                 {item.reference && (
-                  <div>
+                  <div className="overflow-auto">
                     <p className="font-bold">Reference:</p>
                     {parseAndRenderText(item.reference)}
                   </div>
