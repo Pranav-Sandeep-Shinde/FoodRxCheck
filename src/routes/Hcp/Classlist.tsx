@@ -88,7 +88,7 @@ const ClassList = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white-900 p-4 sm:p-6">
+    <div className="flex flex-col items-center justify-top min-h-screen bg-white-900 p-4 sm:p-6">
       <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 text-center drop-shadow-lg mt-4">Classes</h1>
       {/* Search Bar */}
       <div className="w-full max-w-xs sm:max-w-md ">
@@ -196,7 +196,7 @@ const ClassList = () => {
       </div>
 
         {/* Timer Circle - Below Carousel */}
-        <div className="relative mt-12 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative mt-16 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
         <svg className="h-10 w-10 -rotate-90 transform">
           <circle className="stroke-white/30" fill="none" strokeWidth="2" r="16" cx="20" cy="20" />
           <circle
@@ -214,7 +214,7 @@ const ClassList = () => {
       </div>
 
       {/* Navigation Dots - Below Timer */}
-      <div className="mt-4 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
+      <div className="mt-12 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
  .       {classes?.map((slide, index) => (
           <div
             key={index}
