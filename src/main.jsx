@@ -31,6 +31,9 @@ import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
 import SubClassList from './routes/Hcp/SubClassList.tsx'
 import DrugClassification from './routes/Hcp/Classlist.tsx'
 import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
+import Suggestions from './routes/Suggestions.jsx';
+
+
 // import { SidebarProvider } from './context/SideBarContext.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -39,6 +42,9 @@ const router = createBrowserRouter(
       <Route path="/general" element={<General />} />
       <Route path="/general/:id" element={<Instruction />} />
       <Route path="/PasswordReset" element={<PassReset />} />
+
+      <Route path="/suggestions" element={<Suggestions />} />
+
       {/* <Route path="/interactions" element={<Interaction />} /> */}
       <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} />
       <Route path="/foodSearch" element={<FoodSearch />} />
