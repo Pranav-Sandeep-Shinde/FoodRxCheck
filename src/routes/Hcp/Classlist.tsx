@@ -19,6 +19,24 @@ const ClassList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredDot, setHoveredDot] = useState<number | null>(null);
 
+  const BASE_IMAGE_URL = "https://njuuiiwafdfbsyyzdowj.supabase.co/storage/v1/object/public/drug_classes_images/";
+
+  // Mapping object for irregular filenames
+  const imageMappings: Record<string, string> = {
+    "Drugs Acting on CNS": "cns",
+    "Drugs Acting on Blood": "blood",
+    "Corticosteroids": "corticosteriod", // Typo in storage
+    "Skeleton Muscle Relaxant": "skeleton_muscle",
+    "Antidiuretics": "diuretics",
+    "Respiratory System Related": "respiratory"
+  };
+
+  const formatImageUrl = (className: string) => {
+    const formattedName =
+      imageMappings[className] ||
+      className.toLowerCase().replace(/\s+/g, "_");
+    return `${BASE_IMAGE_URL}${formattedName}.jpg`;
+  };
 
   const { data: classes, isLoading, error } = useQuery<Class[]>({
     queryKey: ["classes"],
@@ -165,7 +183,7 @@ const ClassList = () => {
                   }`}
                 >
                   <img
-                    src={`/class_images/${cls.class_name.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                    src={formatImageUrl(cls.class_name)}
                     alt={cls.class_name}
                     className="absolute w-full h-full object-cover rounded-lg"
                   />
