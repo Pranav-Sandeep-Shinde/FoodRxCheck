@@ -111,19 +111,8 @@ const InstructionsList = () => {
                 alt={drug.drug}
                 className="w-full h-full object-cover"
               />
-              {/* {instruction.severity && (
-                  <div className="absolute top-4 right-4">
-                    <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium ${getSeverityColor(instruction.severity)}`}>
-                      <AlertTriangle className="h-4 w-4" />
-                      <span className="capitalize">{instruction.severity} Risk</span>
-                    </div>
-                  </div>
-                )} */}
             </div>
             <div className="p-6">
-              {/* <div className="text-sm font-medium text-teal-600 mb-1">
-                  {instruction.category}
-                </div> */}
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
                 {drug.drug}
               </h3>

@@ -7,15 +7,12 @@ import supabase from '../../Supabase/supabase';
 import { useTheme } from '../../context/ThemeContext';
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
-// console.log(themeColor);
 const Home = ({ showHero }) => {
   const { themeColor, logout, role } = useTheme();
   const color = "bg-teal-100";
   const { session, user } = useAuth();
   const navigate = useNavigate();
   const [showProfile, setShowProfile] = useState(false);
-  console.log(showProfile);
-  // const role = sessionStorage.getItem('role');
   const driverInstance = useRef(null);
   useEffect(() => {
     driverInstance.current = driver({
@@ -29,7 +26,6 @@ const Home = ({ showHero }) => {
     if (userRole === "patient") {
       steps = [
         { element: '.intro', popover: { title: 'Welcome, Patient!', description: 'Learn how to find medical information.', side: "left", align: 'start' } },
-        // { element: '.instruction', popover: { title: 'Instructions', description: 'Click here to see your medication guidelines.', side: "bottom", align: 'start' } },
         { element: '.profile', popover: { title: 'Login as HCP', description: 'Click here to login as HCP.', side: "bottom", align: 'start' } },
         { element: '.icons', popover: { title: 'Navigate the Options', description: 'CLick here to more options.', side: "bottom", align: 'start' } },
         { element: '.GeneralInstruction', popover: { title: 'General Instructions', description: 'CLick here to navigate general instructions', side: "bottom", align: 'start' } },
@@ -40,7 +36,6 @@ const Home = ({ showHero }) => {
     } else {
       steps = [
         { element: '.intro', popover: { title: 'Welcome, Professional!', description: 'Explore medical resources for professionals.', side: "left", align: 'start' } },
-        // { element: '.drug-list', popover: { title: 'Drug List', description: 'Click here to see drug interactions.', side: "bottom", align: 'start' } },
         { element: '.profile', popover: { title: 'Your Profile', description: 'Manage your professional details.', side: "bottom", align: 'start' } },
         { element: '.icons', popover: { title: 'Click here for more options', description: 'Click here for more options', side: "bottom", align: 'start' } },
         { element: '.Drug', popover: { title: 'Drug List', description: 'Click here for accessing drug list', side: "bottom", align: 'start' } },
@@ -49,8 +44,6 @@ const Home = ({ showHero }) => {
         { popover: { title: 'Enjoy!', description: 'You are all set. Provide the best care!' } }
       ];
     }
-    // Check if the user is on a mobile device
-    // console.log(steps);
     if (window.innerWidth < 768) {
       // Remove a step that is not needed on mobile
       steps = steps.filter(step => step.element !== '.icons');
@@ -114,13 +107,6 @@ const Home = ({ showHero }) => {
               {/* Profile or Sign-in Button */}
               {session ? (
                 <div className="absolute top-0 right-0 mt-4">
-                  {/* <button
-              className="md:inline-flex hidden items-center px-3 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors md:px-6 md:py-3"
-              onClick={() => setShowProfile(!showProfile)}
-            >
-              <UserCircle2 className="mr-2 h-5 w-5" />
-              <span className="hidden md:inline">{user?.full_name.split(' ')[0] || 'Profile'}</span>
-            </button> */}
                   <button
                     className="profile fixed bottom-10 right-10 flex items-center justify-center w-14 h-14 rounded-full bg-teal-600/80 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:bg-teal-700 active:scale-90 active:shadow-md"
                     onClick={() => role == 'hcp' ? setShowProfile(true) : navigate('/auth')}
@@ -231,13 +217,6 @@ const Home = ({ showHero }) => {
               {/* Profile or Sign-in Button */}
               {session ? (
                 <div className="absolute top-0 right-0 mt-4">
-                  {/* <button
-              className="md:inline-flex hidden items-center px-3 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors md:px-6 md:py-3"
-              onClick={() => setShowProfile(!showProfile)}
-            >
-              <UserCircle2 className="mr-2 h-5 w-5" />
-              <span className="hidden md:inline">{user?.full_name.split(' ')[0] || 'Profile'}</span>
-            </button> */}
                   <button
                     className={`profile fixed bottom-10 right-10 flex items-center justify-center w-14 h-14 rounded-full bg-sky-600/80 backdrop-blur-md text-white shadow-lg transition-all duration-300 hover:bg-sky-700 active:scale-90 active:shadow-md`}
                     onClick={() => setShowProfile(!showProfile)}

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import './Auth.css';
 import { FaUser, FaLock, FaEnvelope, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
-
-// import supabase from '../../Supabse/supabse'; // Update with the correct path to your supabase.js
 import supabase from '../../Supabase/supabase';
 import QualificationModal from '../../components/Qualification';
 import { useNavigate } from 'react-router-dom';
