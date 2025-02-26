@@ -112,8 +112,8 @@
 		flex-direction: column;
 	}
 	#Logo {
-		width: 7rem;
-		height: 75%;
-		display: none;
+		width: 6rem;
+		height: 6rem;
+		/* display: none; */
 	}
 }
