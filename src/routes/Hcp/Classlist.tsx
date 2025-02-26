@@ -19,6 +19,24 @@ const ClassList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredDot, setHoveredDot] = useState<number | null>(null);
 
+  const BASE_IMAGE_URL = "https://njuuiiwafdfbsyyzdowj.supabase.co/storage/v1/object/public/drug_classes_images/";
+
+  // Mapping object for irregular filenames
+  const imageMappings: Record<string, string> = {
+    "Drugs Acting on CNS": "cns",
+    "Drugs Acting on Blood": "blood",
+    "Corticosteroids": "corticosteriod", // Typo in storage
+    "Skeleton Muscle Relaxant": "skeleton_muscle",
+    "Antidiuretics": "diuretics",
+    "Respiratory System Related": "respiratory"
+  };
+
+  const formatImageUrl = (className: string) => {
+    const formattedName =
+      imageMappings[className] ||
+      className.toLowerCase().replace(/\s+/g, "_");
+    return `${BASE_IMAGE_URL}${formattedName}.jpg`;
+  };
 
   const { data: classes, isLoading, error } = useQuery<Class[]>({
     queryKey: ["classes"],
@@ -88,8 +106,8 @@ const ClassList = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-top min-h-screen bg-white-900 p-4 sm:p-6 md:p-3">
-      <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 text-center drop-shadow-lg mt-4 md:mt-2 md:mb-2">Classes</h1>
+    <div className="flex flex-col items-center justify-top min-h-screen bg-white-900 p-4 sm:p-6">
+      <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 text-center drop-shadow-lg mt-4">Classes</h1>
       {/* Search Bar */}
       <div className="w-full max-w-xs sm:max-w-md ">
         <input
@@ -165,7 +183,7 @@ const ClassList = () => {
                   }`}
                 >
                   <img
-                    src={`/class_images/${cls.class_name.toLowerCase().replace(/\s+/g, "_")}.jpg`}
+                    src={formatImageUrl(cls.class_name)}
                     alt={cls.class_name}
                     className="absolute w-full h-full object-cover rounded-lg"
                   />
@@ -197,7 +215,7 @@ const ClassList = () => {
       </div>
 
         {/* Timer Circle - Below Carousel */}
-        <div className="relative mt-10 md:mt-5 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative mt-10 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
         <svg className="h-10 w-10 -rotate-90 transform">
           <circle className="stroke-white/30" fill="none" strokeWidth="2" r="16" cx="20" cy="20" />
           <circle
