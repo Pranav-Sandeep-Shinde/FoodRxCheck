@@ -124,12 +124,12 @@ function AuthLayout() {
                 id="password-toggle"
               >
                 {showPassword ? (
-                  <FaRegEyeSlash className="h-5 w-5  absolute top-1/2 right-10 transform -translate-y-1/2 text-[#888]" />
+                  <FaRegEyeSlash className="h-5 w-5  absolute top-1/2 right-2 transform -translate-y-1/2 text-[#888]" />
                 ) : (
-                  <FaRegEye className="h-5 w-5  absolute top-1/2 right-10 transform -translate-y-1/2 text-[#888]" />
+                  <FaRegEye className="h-5 w-5  absolute top-1/2 right-2 transform -translate-y-1/2 text-[#888]" />
                 )}
               </button>
-              <FaLock className="absolute top-1/2 right-2 transform -translate-y-1/2 text-[#888]" />
+              {/* <FaLock className="absolute top-1/2 right-2 transform -translate-y-1/2 text-[#888]" /> */}
 
             </div>
             <button
