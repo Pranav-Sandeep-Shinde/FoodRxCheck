@@ -49,7 +49,7 @@ function AuthLayout() {
     } else {
       alert('Login successful!');
       updateRole('hcp');  // Update role to 'hcp' after successful login
-      navigate('/profile');
+      navigate('/');
     }
     setLoading(false);
   };
