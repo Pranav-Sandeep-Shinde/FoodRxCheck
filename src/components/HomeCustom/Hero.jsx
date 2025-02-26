@@ -168,7 +168,7 @@ const Home = ({ showHero }) => {
               />
               <FeatureCard
                 icon={Apple}
-                title="Interact with the Food"
+                title="Food Search"
                 description="Eat what you benefit from"
                 themeColor='teal'
                 className={'FoodSearch'}
