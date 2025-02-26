@@ -40,6 +40,7 @@ const FoodInteraction = () => {
         console.error("Error fetching interactions:", error.message);
         throw new Error(error.message);
       }
+      console.log(data);
       return data || [];
     },
     enabled: !!drug_id,

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import supabase from "../Supabase/supabase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from "../context/ThemeContext";
 
 const Suggestions = () => {
-  const { theme, role } = useTheme();  
+  const { theme, role } = useTheme();
 
   const [description, setDescription] = useState("");
   const [query, setQuery] = useState("Drug Missing");
@@ -102,13 +102,12 @@ const Suggestions = () => {
 
         <motion.button
           whileTap={{ scale: 0.95 }}
-          className={`w-full text-white py-2 px-4 rounded-md transition ${
-            role === "patient" ? "bg-teal-600 hover:bg-teal-700" : "bg-sky-600 hover:bg-sky-700"
-          }`}
+          className={`w-full text-white py-2 px-4 rounded-md transition ${role === "patient" ? "bg-teal-600 hover:bg-teal-700" : "bg-sky-600 hover:bg-sky-700"
+            }`}
           onClick={handleSubmit}
         >
           Submit
-        </motion.button>        
+        </motion.button>
       </motion.div>
     </div>
   );

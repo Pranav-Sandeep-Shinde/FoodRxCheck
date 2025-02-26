@@ -47,7 +47,8 @@ const router = createBrowserRouter(
         <Interaction />
       </DrugsProvider>} />
       <Route index={true} path="/" element={<Home />} />
-      <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> {/* Add the DrugInteractionList route */}
+      {/* <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList tableName="interactions" />} /> Add the DrugInteractionList route */}
+      <Route path="/drug-interaction/:id/:name" element={<DrugInteractionList />} /> {/* Add the DrugInteractionList route */}
       {/* Drug Interaction & HCP Routes */}
       <Route path="/druglist" element={
         <DrugsProvider moduleType="hcp">

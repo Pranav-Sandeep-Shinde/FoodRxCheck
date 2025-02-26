@@ -192,7 +192,7 @@ const Navbar = () => {
     {
       page: `${role == 'hcp' ? "profile" : "auth"}`,
       icon: UserCircle,
-      text: `${role == 'hcp' ? "Profile" : "Auth"}`,
+      text: `${role == 'hcp' ? "Profile" : "Authenticate"}`,
       description: `${role == 'hcp' ? "View your Profile" : "Sign In As HCP"}`,
     },
     role !== "hcp" && {

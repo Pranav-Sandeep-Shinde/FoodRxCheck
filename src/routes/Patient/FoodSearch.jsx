@@ -6,6 +6,7 @@ import debounce from "lodash/debounce";
 import { Search, X, Loader2 } from "lucide-react";
 import supabase from "../../Supabase/supabase";
 import { useTheme } from "../../context/ThemeContext";
+
 const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
     if (!food.trim()) return [];
 
@@ -97,10 +98,22 @@ const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
 const FoodSearch = () => {
     const { themeColor } = useTheme();
     const navigate = useNavigate();
+    const [drugs_table, setDrugTable] = useState("");
+    const [interaction_table, setInteractionTable] = useState("");
+    const { role } = useTheme();
+    useEffect(() => {
+        if (role === "patient") {
+            setDrugTable("patient_drugs");
+            setInteractionTable("patient_interactions");
+        } else {
+            setDrugTable("drugs");
+            setInteractionTable("interactions");
+        }
+    }, [role])
     const [searchTerm, setSearchTerm] = useState("");
     const { data: drugs, isLoading, error, refetch } = useQuery({
         queryKey: ["searchDrugs", searchTerm],
-        queryFn: () => fetchDrugsByFood(searchTerm, "interactions", "drugs"),
+        queryFn: () => fetchDrugsByFood(searchTerm, interaction_table, drugs_table),
         enabled: false,
         cacheTime: 600000,  // Cache for 10 minutes
     });

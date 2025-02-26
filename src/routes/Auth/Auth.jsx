@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './Auth.css';
-import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaLock, FaEnvelope, FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
+
 // import supabase from '../../Supabse/supabse'; // Update with the correct path to your supabase.js
 import supabase from '../../Supabase/supabase';
 import QualificationModal from '../../components/Qualification';
@@ -10,10 +11,14 @@ function AuthLayout() {
   const [isActive, setIsActive] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [qualifications, setQualifications] = useState(null);
+  const togglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  }
   // const [role, setRole] = useState('patient');
   const navigate = useNavigate();
   const { updateRole } = useTheme();
@@ -106,13 +111,28 @@ function AuthLayout() {
             </div>
             <div className="relative my-[20px]">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input-box"
               />
+
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="focus:outline-none"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                id="password-toggle"
+              >
+                {showPassword ? (
+                  <FaRegEyeSlash className="h-5 w-5  absolute top-1/2 right-10 transform -translate-y-1/2 text-[#888]" />
+                ) : (
+                  <FaRegEye className="h-5 w-5  absolute top-1/2 right-10 transform -translate-y-1/2 text-[#888]" />
+                )}
+              </button>
               <FaLock className="absolute top-1/2 right-2 transform -translate-y-1/2 text-[#888]" />
+
             </div>
             <button
               type="submit"
@@ -212,7 +232,7 @@ function AuthLayout() {
             className={`absolute left-0 bg-none w-1/2 h-full  flex items-center flex-col justify-center text-center text-white z-10 tg Left
               transition-all duration-700 ease-in-out ${isActive ? '-left-[50%] opacity-0 invisible' : 'left-0 opacity-100 visible'}`}>
             <div id='Logo' className='flex justify-center'>
-              <img className=" w-[20em] rounded-full" style={{ background: "radial-gradient(circle, #14b8a6 50%, white 100%)" }} src="/drugSpecIconwhite1.png" alt="" />
+              <img className=" w-[20em] rounded-full" style={{ background: "radial-gradient(circle, #14b8a6 50%, white 100%)" }} src="/drugSpecIconwhite1.png" alt="icon" />
             </div>
             <div className=" heading text-[35px] font-bold font-fit">Welcome Back!</div>
             <div className="my-1">Don't Have an Account?</div>
