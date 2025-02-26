@@ -41,10 +41,10 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-gray-100 to-blue-100 flex flex-col items-center justify-center px-5">
+    <div className="max-h-screen bg-gradient-to-r from-gray-100 to-blue-100 flex flex-col items-center justify-center px-5 ">
 
       {/* Static Card Container */}
-      <div className="h-[550px] w-full md:w-3/4 lg:w-1/2 bg-gradient-to-r from-blue-100 rounded-3xl shadow-lg px-2 py-10 overflow-auto pb-10">
+      <div className="max-h-screen w-full md:w-3/4 lg:w-1/2 bg-gradient-to-r from-blue-100 rounded-3xl shadow-lg px-2 py-10 overflow-hidden mt-10 pb-10">
 
         {/* Animated Content with Staggered Children */}
         <motion.div
