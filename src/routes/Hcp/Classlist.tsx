@@ -183,20 +183,20 @@ const ClassList = () => {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-50 "
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-10 "
         >
           <ChevronLeft className="text-white w-6 h-6" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-50"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 p-3 rounded-full hover:bg-black/70 transition-all z-10"
         >
           <ChevronRight className="text-white w-6 h-6" />
         </button>
       </div>
 
         {/* Timer Circle - Below Carousel */}
-        <div className="relative mt-16 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
+        <div className="relative mt-10 h-12 w-12 bg-black/50 rounded-full p-1 backdrop-blur-sm flex items-center justify-center">
         <svg className="h-10 w-10 -rotate-90 transform">
           <circle className="stroke-white/30" fill="none" strokeWidth="2" r="16" cx="20" cy="20" />
           <circle
@@ -214,7 +214,7 @@ const ClassList = () => {
       </div>
 
       {/* Navigation Dots - Below Timer */}
-      <div className="mt-12 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
+      <div className="mt-4 flex gap-2 bg-black/40 px-4 py-2 rounded-full backdrop-blur-sm">
  .       {classes?.map((slide, index) => (
           <div
             key={index}
