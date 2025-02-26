@@ -102,7 +102,8 @@ const ClassList = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full max-w-xs sm:max-w-lg h-[300px] sm:h-[400px] mt-5">
+      <div className="relative w-full max-w-xs sm:max-w-lg h-[300px] sm:h-[400px] mt-5">  {/* arrow adjustment */}
+        {/* Slides */}
         <div className="relative flex justify-center items-center perspective-1000 w-full h-full">
         {filteredClasses.map((cls, index) => {
             const offset = (index - currentIndex + filteredClasses.length) % filteredClasses.length;
@@ -115,11 +116,11 @@ const ClassList = () => {
               transform = "translateX(0) scale(1)";
               zIndex = 3;
             } else if (offset === 1 || offset === -filteredClasses.length + 1) {
-              transform = "translateX(90%) scale(0.8)";
+              transform = "translateX(100%) scale(0.8)";        // card gap
               zIndex = 2;
               opacity = 0.6;
             } else if (offset === -1 || offset === filteredClasses.length - 1) {
-              transform = "translateX(-90%) scale(0.8)";
+              transform = "translateX(-100%) scale(0.8)";     // card gap
               zIndex = 2;
               opacity = 0.6;
             } else {
