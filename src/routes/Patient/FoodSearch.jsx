@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -6,7 +6,6 @@ import debounce from "lodash/debounce";
 import { Search, X, Loader2 } from "lucide-react";
 import supabase from "../../Supabase/supabase";
 import { useTheme } from "../../context/ThemeContext";
-
 const fetchDrugsByFood = async (food, interactionsTable, drugsTable) => {
     if (!food.trim()) return [];
 
@@ -84,19 +83,21 @@ const SearchBar = ({ searchTerm, setSearchTerm, isLoading }) => {
                 )}
                 {isLoading && (
                     <div className="absolute right-12 top-1/2 transform -translate-y-1/2">
-                        <Loader2 className={`h-5 w-5 animate-spin text-${themeColor}-500`} />
+                        <Loader2 className={`h - 5 w-5 animate-spin text-${themeColor}-500`} />
                     </div>
                 )}
             </div>
             {isLoading && (
-                <div className={`absolute left-0 bottom-0 w-full h-1 bg-${themeColor}-500 rounded-b-lg animate-pulse`}></div>
-            )}
-        </div>
+                <div className={`absolute left-0 bottom-0 w-full h-1 bg-${themeColor}- 500 rounded-b-lg animate-pulse`}></div>
+            )
+            }
+        </div >
     );
 };
 
 const FoodSearch = () => {
-    const { themeColor } = useTheme();
+    const themeColor = useTheme();
+    console.log(themeColor);
     const navigate = useNavigate();
     const [drugs_table, setDrugTable] = useState("");
     const [interaction_table, setInteractionTable] = useState("");
@@ -181,7 +182,7 @@ const FoodSearch = () => {
                                             whileHover={{ scale: 1.05 }}
                                             whileTap={{ scale: 0.98 }}
                                             className="p-6 bg-white rounded-xl shadow-xl cursor-pointer transform hover:shadow-2xl transition-all duration-300"
-                                            onClick={() => navigate(`/drug-interaction/${drug.drug_id}/${drug.drug_name}`)}
+                                            onClick={() => navigate(`/drug-interaction/${drug.drug_id} / ${drug.drug_name}`)}
                                         >
                                             <p className="text-xl font-semibold text-gray-800">{drug.drug_name}</p>
                                         </motion.div>
@@ -214,8 +215,8 @@ const FoodSearch = () => {
                                     }`}
                                 onClick={() => !isLoading && setSearchTerm(food.name)}
                             >
-                                <div className={`flex items-center justify-center h-24 w-24 bg-${themeColor}-100 rounded-full mb-4`}>
-                                    <p className="text-3xl">{food.emoji}</p>
+                                <div className={`flex items-center justify-center h-16 w-16 sm:h-24 sm:w-24 bg-${themeColor.themeColor}-100 rounded-full mb-4`}>
+                                    <p className="text-2xl sm:text-3xl">{food.emoji}</p>
                                 </div>
                                 <p className="mt-2">{food.name}</p>
                             </motion.div>
