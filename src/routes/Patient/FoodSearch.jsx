@@ -160,36 +160,40 @@ const FoodSearch = () => {
     return (
         <div className="flex flex-col items-center min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 p-6">
             <div className="w-full max-w-4xl">
-                <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">Food-Drug Interactions</h1>
+                <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Food Search</h1>
                 <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} isLoading={isLoading} />
 
                 {searchTerm && Object.keys(groupedDrugs).length > 0 && (
-                    <div className="mt-8">
-                        {Object.keys(groupedDrugs).map((letter) => (
-                            <div key={letter} className="mb-8">
-                                <h2 className="text-2xl font-semibold text-gray-700 mb-4 border-b-2 border-gray-300 pb-2">
-                                    {letter}
-                                </h2>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5 }}
-                                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                                >
-                                    {groupedDrugs[letter].map((drug) => (
-                                        <motion.div
-                                            key={drug.drug_id}
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.98 }}
-                                            className="p-6 bg-white rounded-xl shadow-xl cursor-pointer transform hover:shadow-2xl transition-all duration-300"
-                                            onClick={() => navigate(`/drug-interaction/${drug.drug_id} / ${drug.drug_name}`)}
-                                        >
-                                            <p className="text-xl font-semibold text-gray-800">{drug.drug_name}</p>
-                                        </motion.div>
-                                    ))}
-                                </motion.div>
-                            </div>
-                        ))}
+                    <div>
+                        <h2 className="font-semibold text-xl mt-3 text-center text-gray-800 ">Drugs interacting with {searchTerm}  </h2>
+
+                        <div className="mt-8">
+                            {Object.keys(groupedDrugs).map((letter) => (
+                                <div key={letter} className="mb-8">
+                                    <h2 className="text-2xl font-semibold text-gray-700 mb-4 border-b-2 border-gray-300 pb-2">
+                                        {letter}
+                                    </h2>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5 }}
+                                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                                    >
+                                        {groupedDrugs[letter].map((drug) => (
+                                            <motion.div
+                                                key={drug.drug_id}
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.98 }}
+                                                className="p-6 bg-white rounded-xl shadow-xl cursor-pointer transform hover:shadow-2xl transition-all duration-300"
+                                                onClick={() => navigate(`/drug-interaction/${drug.drug_id} / ${drug.drug_name}`)}
+                                            >
+                                                <p className="text-xl font-semibold text-gray-800">{drug.drug_name}</p>
+                                            </motion.div>
+                                        ))}
+                                    </motion.div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )}
 
