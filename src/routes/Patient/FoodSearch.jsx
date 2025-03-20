@@ -203,7 +203,7 @@ const FoodSearch = () => {
 
             {!searchTerm && (
                 <div className="mt-6 w-full max-w-3xl text-center">
-                    <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-6">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                         Common Food Items
                     </h2>
                     <div className="grid grid-cols-3 gap-8">
