@@ -1,4 +1,5 @@
 import React from 'react'
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router'
 import Navbar from './components/SideBar';
@@ -29,7 +30,7 @@ const App = () => {
         {/* ✅ Pass selectedDrugs and setSelectedDrugs via context */}
         <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
       </main>
-
+      <SpeedInsights />
     </div>
 
   );
