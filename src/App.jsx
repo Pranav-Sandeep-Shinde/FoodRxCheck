@@ -3,6 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router'
 import Navbar from './components/SideBar';
+import { Analytics } from "@vercel/analytics/react"
 const App = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [selectedDrugs, setSelectedDrugs] = useState([]); // ✅ Add selectedDrugs state
@@ -31,6 +32,7 @@ const App = () => {
         <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
       </main>
       <SpeedInsights />
+      <Analytics />
     </div>
 
   );
