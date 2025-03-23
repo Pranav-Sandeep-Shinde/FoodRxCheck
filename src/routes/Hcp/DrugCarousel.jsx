@@ -318,6 +318,7 @@
 //     </div>
 //   );
 // }
+
 import React, { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -397,31 +398,47 @@ export default function DrugCarousel() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white py-10 relative px-4">
 
-      {/* 🔍 Search Bar - Only Visible on Web (sm and larger) */}
-      <div
-        ref={searchRef}
-        className="absolute top-5 left-0 sm:left-36 transition-all duration-300 w-full sm:w-auto hidden sm:block"
-      >
-        <div
-          className={`flex items-center bg-gray-100 rounded-full shadow-md p-2 border border-gray-300 transition-all duration-300 ${searchExpanded ? "w-[250px]" : "w-[40px]"
-            }`}
-          onMouseEnter={() => setSearchExpanded(true)}
-          onMouseLeave={() => setSearchExpanded(false)}
-          onClick={() => setSearchExpanded(true)}
-        >
-          <Search className="text-gray-500 cursor-pointer" size={24} />
-          {searchExpanded && (
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search drugs..."
-              className="ml-2 flex-1 bg-transparent outline-none text-gray-800"
-              autoFocus
-            />
-          )}
-        </div>
-      </div>
+      {/* 🔍 Desktop Search Bar (Expandable) */}
+<div
+  ref={searchRef}
+  className="absolute top-5 left-0 sm:left-36 transition-all duration-300 w-full sm:w-auto hidden sm:block"
+>
+  <div
+    className={`flex items-center bg-gray-100 rounded-full shadow-md p-2 border border-gray-300 transition-all duration-300 ${
+      searchExpanded ? "w-[250px]" : "w-[40px]"
+    }`}
+    onMouseEnter={() => setSearchExpanded(true)}
+    onMouseLeave={() => setSearchExpanded(false)}
+    onClick={() => setSearchExpanded(true)}
+  >
+    <Search className="text-gray-500 cursor-pointer" size={24} />
+    {searchExpanded && (
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        placeholder="Search drugs..."
+        className="ml-2 flex-1 bg-transparent outline-none text-gray-800"
+        autoFocus
+      />
+    )}
+  </div>
+</div>
+
+{/* 🔍 Mobile Search Bar (Always Visible) */}
+<div className="w-[85%] sm:hidden mx-auto px-4">
+  <div className="flex items-center bg-gray-100 rounded-full shadow-md p-2 border border-gray-300">
+    <Search className="text-gray-500" size={24} />
+    <input
+      type="text"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      placeholder="Search drugs..."
+      className="ml-2 flex-1 bg-transparent outline-none text-gray-800"
+    />
+  </div>
+</div>
+
 
 
 
@@ -431,69 +448,62 @@ export default function DrugCarousel() {
         Explore Drugs
       </h1>
 
-      {/* 🔠 A-Z Alphabet Filter */}
-      <div className="flex flex-col items-center my-4 w-full">
-        <h2 className="text-xl font-extrabold text-gray-900 mb-4 tracking-wide">🔠 Filter by First Letter</h2>
+      {/* 🔠 A-Z Alphabet Filter (Only for Desktop) */}
+<div className="hidden sm:flex flex-col items-center my-4 w-full">
+  <h2 className="text-xl font-extrabold text-gray-900 mb-4 tracking-wide">
+    🔠 Filter by First Letter
+  </h2>
 
-        {/* Dropdown for Mobile */}
-        <select
-          className="block sm:hidden w-full max-w-xs p-2 bg-gray-100 text-gray-800 border border-gray-300 rounded-md mb-4"
-          value={selectedLetter}
-          onChange={(e) => setSelectedLetter(e.target.value)}
+  {/* Grid for Desktop */}
+  <div className="flex flex-wrap justify-center gap-2 w-full max-w-2xl px-4 py-2 rounded-lg">
+    {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
+      <button
+        key={letter}
+        className={`px-4 py-2 rounded-md text-sm font-semibold transition-all border border-gray-300 hover:bg-gray-200 hover:text-gray-900 ${
+          selectedLetter === letter
+            ? "bg-sky-700 text-white border-sky-700 shadow-lg"
+            : "bg-gray-100 text-gray-800"
+        }`}
+        onClick={() => setSelectedLetter((prev) => (prev === letter ? "" : letter))}
+      >
+        {letter}
+      </button>
+    ))}
+  </div>
+</div>
+
+{/* 📦 Drug Grid Display */}
+{isLoading && <p className="text-gray-500">Loading...</p>}
+{error && <p className="text-red-500">Error: {error.message}</p>}
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6 mt-4 pb-24 px-[10%]">
+  {filteredDrugs.map((drug) => {
+    const isSelected = selectedDrugs.some((d) => d.drug_id === drug.drug_id);
+    return (
+      <div
+        key={drug.drug_id}
+        className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
+        onClick={() => navigate(`/hcp_foodInteraction/${drug.drug_id}`)}
+      >
+        <h3 className="text-lg font-semibold text-gray-900">{drug.drug_name}</h3>
+        <button
+          className={`relative group rounded-full w-9 h-9 flex items-center justify-center text-white ${
+            isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-sky-500 hover:bg-sky-600"
+          }`}
+          onClick={(e) => toggleDrugSelection(drug, e)}
+          onMouseEnter={() => setDrawerOpen(false)}
         >
-          <option value="">Select a letter</option>
-          {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
-            <option key={letter} value={letter}>{letter}</option>
-          ))}
-        </select>
+          {isSelected ? <Minus size={18} /> : <Plus size={18} />}
 
-        {/* Grid for Desktop */}
-        <div className="hidden sm:flex flex-wrap justify-center gap-2 w-full max-w-2xl px-4 py-2 rounded-lg">
-          {"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map((letter) => (
-            <button
-              key={letter}
-              className={`px-4 py-2 rounded-md text-sm font-semibold transition-all border border-gray-300 hover:bg-gray-200 hover:text-gray-900 ${selectedLetter === letter ? "bg-sky-700 text-white border-sky-700 shadow-lg" : "bg-gray-100 text-gray-800"
-                }`}
-              onClick={() => setSelectedLetter((prev) => (prev === letter ? "" : letter))}
-            >
-              {letter}
-            </button>
-          ))}
-        </div>
+          {/* Tooltip */}
+          <span className="absolute left-1/2 transform -translate-x-1/2 -top-8 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition">
+            {isSelected ? "Remove from list" : "Add to list"}
+          </span>
+        </button>
       </div>
-
-      {/* 📦 Drug Grid Display */}
-      {isLoading && <p className="text-gray-500">Loading...</p>}
-      {error && <p className="text-red-500">Error: {error.message}</p>}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6 mt-4 pb-24 px-[10%]">
-        {filteredDrugs.map((drug) => {
-          const isSelected = selectedDrugs.some((d) => d.drug_id === drug.drug_id);
-          return (
-            <div
-              key={drug.drug_id}
-              className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
-              onClick={() => navigate(`/hcp_foodInteraction/${drug.drug_id}`)}
-            >
-              <h3 className="text-lg font-semibold text-gray-900">{drug.drug_name}</h3>
-              <button
-                className={`relative group rounded-full w-9 h-9 flex items-center justify-center text-white ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-sky-500 hover:bg-sky-600"
-                  }`}
-                onClick={(e) => toggleDrugSelection(drug, e)}
-                onMouseEnter={() => setDrawerOpen(false)}
-              >
-                {isSelected ? <Minus size={18} /> : <Plus size={18} />}
-
-                {/* Tooltip */}
-                <span className="absolute left-1/2 transform -translate-x-1/2 -top-8 bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition">
-                  {isSelected ? "Remove from list" : "Add to list"}
-                </span>
-              </button>
-
-            </div>
-          );
-        })}
-      </div>
+    );
+  })}
+</div>
 
       {/* 🏷️ Selected Drugs Button */}
       <div className="absolute top-4 right-4">
