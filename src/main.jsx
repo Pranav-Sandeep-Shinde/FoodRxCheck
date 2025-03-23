@@ -1,34 +1,33 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
 import { Route, RouterProvider, createRoutesFromElements } from "react-router";
-import AuthLayout from './routes/Auth/Auth.jsx';
-import Home from './routes/Home.jsx';
 import { createBrowserRouter } from "react-router-dom";
+import App from './App.jsx';
 import AuthProvider from './context/AuthProvider.jsx';
-import PrivateRoute from './routes/Auth/PrivateRoute.jsx';
-import Profile from './routes/Hcp/Profile.jsx';
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import General from './routes/Patient/General_Instruction.jsx';
-import Instruction from './routes/Patient/instructions.jsx';
-import PassReset from './routes/Auth/PassReset.jsx';
-const queryClient = new QueryClient();
-import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
 import { DrugsProvider } from './context/DrugsProvider.jsx';
+import { ThemeProvider } from "./context/ThemeContext";
+import './index.css';
+import AuthLayout from './routes/Auth/Auth.jsx';
+import PassReset from './routes/Auth/PassReset.jsx';
+import PrivateRoute from './routes/Auth/PrivateRoute.jsx';
+import DrugClassification from './routes/Hcp/Classlist.tsx';
 import Drug_List from './routes/Hcp/Drug_List.jsx';
 import DrugCarousel from './routes/Hcp/DrugCarousel.jsx';
-import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
+import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx';
 import InteractionList from './routes/Hcp/InteractionListClassification.tsx';
-import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
-import Interaction from './routes/Patient/interactions.jsx';
-import { ThemeProvider } from "./context/ThemeContext";
-import FoodSearch from './routes/Patient/FoodSearch.jsx';
+import Profile from './routes/Hcp/Profile.jsx';
+import SubClassList from './routes/Hcp/SubClassList.tsx';
+import Home from './routes/Home.jsx';
 import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
-import SubClassList from './routes/Hcp/SubClassList.tsx'
-import DrugClassification from './routes/Hcp/Classlist.tsx'
-import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
-import Suggestions from './routes/Suggestions.jsx'
+import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
+import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
+import FoodSearch from './routes/Patient/FoodSearch.jsx';
+import General from './routes/Patient/General_Instruction.jsx';
+import Instruction from './routes/Patient/instructions.jsx';
+import Interaction from './routes/Patient/interactions.jsx';
+import Suggestions from './routes/Suggestions.jsx';
+const queryClient = new QueryClient();
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
@@ -36,7 +35,11 @@ const router = createBrowserRouter(
       <Route path="/general" element={<General />} />
       <Route path="/general/:id" element={<Instruction />} />
       <Route path="/PasswordReset" element={<PassReset />} />
-      <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} />
+      {/* <Route path="/food-interaction/:drug_id" element={<FoodInteraction />} /> */}
+
+      <Route path="/food-interaction/:drug_id" element={<FoodInteraction moduleType="patient" />} />
+
+
       <Route path="/foodSearch" element={<FoodSearch />} />
       <Route path="/interactions" element={<DrugsProvider moduleType="patient">
         <Interaction />
@@ -54,11 +57,20 @@ const router = createBrowserRouter(
           <DrugCarousel />
         </DrugsProvider>
       } />
-      <Route path="/hcp_foodInteraction/:id" element={
+      {/* <Route path="/hcp_foodInteraction/:id" element={
         <DrugsProvider moduleType="hcp">
           <HcpfoodInteraction />
         </DrugsProvider>
-      } />
+      } /> */}
+
+<Route path="/hcp_foodInteraction/:drug_id" element={
+  <DrugsProvider moduleType="hcp">
+    <FoodInteraction moduleType="hcp" />
+  </DrugsProvider>
+} />
+
+
+
       <Route path="/suggestions" element={<Suggestions />} />
       {/* Classification routes wrapped in HCP DrugsProvider */}
       <Route path="/classification" element={
