@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useNavigate } from "react-router-dom";
-import  supabase  from "../../Supabase/supabase";
+import supabase from "../../Supabase/supabase";
 import { ArrowLeft } from "lucide-react";
 
-type Drug = {
-  drug_id: number;
-  drug_name: string;
-};
-
 const DrugList = () => {
-  const { sub_class_id } = useParams<{ sub_class_id: string }>();
+  const { sub_class_id } = useParams();
   const navigate = useNavigate();
   const parsedId = Number(sub_class_id);
 
-  const [title, setTitle] = useState<string>("Drugs");
-  const [isClassId, setIsClassId] = useState<boolean | null>(null);
-  const [searchQuery, setSearchQuery] = useState(""); // Search state
+  const [title, setTitle] = useState("Drugs");
+  const [isClassId, setIsClassId] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Determine if parsedId refers to class_id or subclass_id
   useEffect(() => {
@@ -64,7 +59,7 @@ const DrugList = () => {
   }, [parsedId, isClassId]);
 
   // Fetch drugs based on class or subclass ID
-  const { data: drugs = [], isLoading, error } = useQuery<Drug[]>({
+  const { data: drugs = [], isLoading, error } = useQuery({
     queryKey: ["drugs", parsedId],
     queryFn: async () => {
       if (isNaN(parsedId) || isClassId === null) return [];
@@ -105,15 +100,17 @@ const DrugList = () => {
       {/* Back Arrow Button */}
       <div className="w-full max-w-6xl">
         <button
-          onClick={() => navigate(-1)} // Go back to the previous page
-          className="flex items-center text-black hover:text-gray-700 transition-all"
+          onClick={() => navigate(-1)}
+          className="flex sm:ml-14 items-center text-black hover:text-gray-700 transition-all"
         >
           <ArrowLeft className="w-6 h-6 mr-2" /> Back
         </button>
       </div>
 
       {/* Title */}
-      <h1 className="text-3xl sm:text-4xl font-bold text-black mb-6 text-center drop-shadow-lg mt-8">{title}</h1>
+      <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-black mb-6 text-center drop-shadow-lg mt-8">
+        {title}
+      </h1>
 
       {/* Search Bar */}
       <div className="w-full max-w-md">
@@ -130,12 +127,12 @@ const DrugList = () => {
       {filteredDrugs.length === 0 ? (
         <p className="text-gray-300 text-center">No drugs found.</p>
       ) : (
-        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-center w-full max-w-6xl">
+        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-center w-[80%] max-w-6xl">
           {filteredDrugs.map((drug) => (
             <div
               key={drug.drug_id}
-              onClick={() => navigate(`/interactions/${drug.drug_id}`)} // Navigate to interactions
-              className="cursor-pointer w-full max-w-[220px] h-[140px] bg-white border-2 border-[#00796b] rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1 flex items-center justify-center text-center p-4 mx-auto"
+              onClick={() => navigate(`/interactions/${drug.drug_id}`)}
+              className="w-full sm:max-w-[220px] sm:h-[140px] bg-white/10 backdrop-blur-lg rounded-lg border-2 border-gray-500 shadow-lg hover:shadow-2xl transition-transform transform hover:-translate-y-2 cursor-pointer flex items-center justify-center text-center p-4 mx-auto"
             >
               <p className="text-lg font-semibold text-black">{drug.drug_name}</p>
             </div>
