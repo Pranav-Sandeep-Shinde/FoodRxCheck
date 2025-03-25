@@ -24,6 +24,30 @@ const App = () => {
 
     return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
   }, []);
+  // Disabling the right click and key shortcut
+  useEffect(() => {
+    const disableRightClick = (event) => event.preventDefault();
+    const disableShortcuts = (event) => {
+      if (
+        event.ctrlKey &&
+        ["u", "U", "c", "C", "i", "I", "s", "S"].includes(event.key)
+      ) {
+        event.preventDefault();
+      }
+      if (event.key === "F12") {
+        event.preventDefault();
+      }
+    };
+
+    document.addEventListener("contextmenu", disableRightClick, { capture: true });
+    document.addEventListener("keydown", disableShortcuts, { capture: true });
+    return () => {
+      document.removeEventListener("contextmenu", disableRightClick, { capture: true });
+      document.removeEventListener("keydown", disableShortcuts, { capture: true });
+    };
+  }, []);
+
+
   return (
     <div className='min-h-screen bg-gray-100'>
       {isVisible && <Navbar />} {/* Show navbar after 5 sec delay */}
