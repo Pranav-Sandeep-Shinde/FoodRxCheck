@@ -26,7 +26,11 @@ const App = () => {
   }, []);
   // Disabling the right click and key shortcut
   useEffect(() => {
+    // Disable Right-Click
     const disableRightClick = (event) => event.preventDefault();
+    document.addEventListener("contextmenu", disableRightClick);
+
+    // Disable Common Keyboard Shortcuts
     const disableShortcuts = (event) => {
       if (
         event.ctrlKey &&
@@ -34,16 +38,34 @@ const App = () => {
       ) {
         event.preventDefault();
       }
-      if (event.key === "F12") {
+      if (["F12", "F11", "F10"].includes(event.key)) {
         event.preventDefault();
       }
     };
+    document.addEventListener("keydown", disableShortcuts);
 
-    document.addEventListener("contextmenu", disableRightClick, { capture: true });
-    document.addEventListener("keydown", disableShortcuts, { capture: true });
+    // Detect DevTools Open (Close Immediately)
+    let devToolsOpened = false; // Ensure it runs only once
+
+    const detectDevTools = () => {
+      if (!devToolsOpened) {
+        const threshold = 160;
+        if (
+          window.outerWidth - window.innerWidth > threshold ||
+          window.outerHeight - window.innerHeight > threshold
+        ) {
+          devToolsOpened = true;
+          alert("DevTools detected! The window will now close.");
+          document.body.innerHTML = "h1>DevTools detected! The window will now close.</h1>";
+        }
+      }
+      requestAnimationFrame(detectDevTools);
+    };
+    requestAnimationFrame(detectDevTools);
+
     return () => {
-      document.removeEventListener("contextmenu", disableRightClick, { capture: true });
-      document.removeEventListener("keydown", disableShortcuts, { capture: true });
+      document.removeEventListener("contextmenu", disableRightClick);
+      document.removeEventListener("keydown", disableShortcuts);
     };
   }, []);
 
