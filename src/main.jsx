@@ -22,15 +22,15 @@ import Drug_List from './routes/Hcp/Drug_List.jsx';
 import DrugCarousel from './routes/Hcp/DrugCarousel.jsx';
 import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
 import DrugList from './routes/Patient/DrugList.jsx';
-import InteractionList from './routes/Hcp/InteractionListClassification.tsx';
+import InteractionList from './routes/Hcp/InteractionListClassification.jsx';
 import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
 import Interaction from './routes/Patient/interactions.jsx';
 import { ThemeProvider } from "./context/ThemeContext";
 import FoodSearch from './routes/Patient/FoodSearch.jsx';
 import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
-import SubClassList from './routes/Hcp/SubClassList.tsx'
-import DrugClassification from './routes/Hcp/Classlist.tsx'
-import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx'
+import SubClassList from './routes/Hcp/SubClassList.jsx'
+import DrugClassification from './routes/Hcp/Classlist.jsx'
+import DrugListClassification from './routes/Hcp/DrugListClassifcation.jsx'
 // import { SidebarProvider } from './context/SideBarContext.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
