@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div className='min-h-screen bg-gray-100'>
       {isVisible && <Navbar />} {/* Show navbar after 5 sec delay */}
-      <main className='pt-16 md:pt-0'>
+      <main className='pt-4 md:pt-0'>
         {/* ✅ Pass selectedDrugs and setSelectedDrugs via context */}
         <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
       </main>
