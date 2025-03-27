@@ -143,7 +143,7 @@ const Interaction = () => {
                 onClick={() => navigate(`/food-interaction/${drug.drug_id}`)}
               >
                  <div className="flex items-center justify-between w-full">
-              <h3 className="w-full text-sm font-semibold text-center text-gray-900 sm:text-lg md:text-xl  md:text-[22px] md:text-left">{drug.drug_name}</h3>
+              <h3 className="w-full text-sm font-semibold text-center text-gray-900 sm:text-lg md:text-xl  md:text-[20px] md:text-left">{drug.drug_name}</h3>
                
                 {/* Add / Remove Button */}
                 <div className="relative group">
@@ -168,12 +168,12 @@ const Interaction = () => {
       </div>
 
       {/* 🏷️ Selected Drugs Button */}
-     
-      <div className="absolute top-20 sm:top-2 right-4 sm:right-10 md:right-20 z-20">
+   
+        <div className="absolute top-20 sm:top-10 right-4 sm:right-6 md:right-24 z-20">
       <div className="relative flex group sm:justify-center">
         <button
   onClick={() => setDrawerOpen(true)}
-  className="relative flex items-center gap-1.5 px-3 py-1.5 text-sm transition-all duration-300 bg-white border border-teal-500 rounded-full shadow-sm group-hover:bg-teal-500"
+  className="relative flex items-center gap-1.5 px-2 py-1.5 text-sm transition-all duration-300 bg-white border border-teal-500 rounded-full shadow-sm group-hover:bg-teal-500"
   >
   {selectedDrugs.length > 0 && (
     <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
