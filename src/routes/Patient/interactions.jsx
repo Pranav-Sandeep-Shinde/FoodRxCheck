@@ -71,18 +71,19 @@ const Interaction = () => {
   return (
     <div className="max-w-full px-4 py-8 transition-all duration-300 md:px-28 md:ml-20">
       {/* Search Input  on Mobile */}
-      <div className="items-center justify-between mb-8 ">
-        <div className="relative flex items-center bg-gray-100 rounded-full shadow-md border border-gray-300 transition-all duration-300 w-[75%] h-[55px] sm:w-[50px] sm:h-[50px] sm:p-2 sm:hover:w-[280px] sm:hover:px-4">
-          <Search className="w-8 h-8 text-gray-400 cursor-pointer sm:w-8 sm:h-8" /> {/* Increased size */}
-          <input
-            type="text"
-            placeholder="Search for a drug..."
-            className="flex-1 w-0 ml-2 text-sm text-gray-800 transition-all duration-300 bg-transparent outline-none opacity-100 sm:opacity-0 sm:w-0 sm:hover:opacity-100 sm:hover:w-full sm:text-base"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
+      <div className="flex mb-8 justify-center sm:justify-center md:justify-start">
+  <div className="relative flex items-center bg-gray-100 rounded-full shadow-md border border-gray-300 transition-all duration-300 w-[75%] h-[55px] sm:w-[50px] sm:h-[50px] sm:p-2 sm:hover:w-[280px] sm:hover:px-4">
+    <Search className="w-8 h-8 text-gray-400 cursor-pointer sm:w-6 sm:h-6"  /> {/* Increased size */}
+    <input
+      type="text"
+      placeholder="Search for a drug..."
+      className="flex-1 w-0 ml-2 text-sm text-gray-800 transition-all duration-300 bg-transparent outline-none opacity-100 sm:opacity-0 sm:w-0 sm:hover:opacity-100 sm:hover:w-full sm:text-base"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  </div>
+</div>
+
 
 
       <div className="justify-center hidden mt-4 sm:flex sm:mt-0 md:hidden">
@@ -142,16 +143,25 @@ const Interaction = () => {
                 className="flex items-center justify-between p-6 text-sm transition-all duration-300 transform bg-white shadow-md cursor-pointer rounded-xl hover:shadow-lg hover:scale-105 sm:text-base"
                 onClick={() => navigate(`/food-interaction/${drug.drug_id}`)}
               >
-                <h3 className="w-full text-sm font-semibold text-center text-gray-900 break-words sm:text-lg md:text-xl md:text-left">{drug.drug_name}</h3>
+                 <div className="flex items-center justify-between w-full">
+              <h3 className="w-full text-sm font-semibold text-center text-gray-900 sm:text-lg md:text-xl  md:text-[20px] md:text-left">{drug.drug_name}</h3>
+               
                 {/* Add / Remove Button */}
+                <div className="relative group">
                 <button
-                  className={`absolute top-2 right-2 rounded-full p-2 transition ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-teal-500 hover:bg-teal-600"} text-white`}
-                  onClick={(e) => { e.stopPropagation(); toggleDrug(drug, e) }}
+
+                   className={`ml-4 p-2 rounded-full p-2 transition ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-teal-500 hover:bg-teal-600"} text-white flex items-center justify-center w-8 h-8`}
+                  onClick={(e) =>{  e.stopPropagation(); toggleDrug(drug, e)}}
+                  
                   onMouseEnter={() => setDrawerOpen(false)} // Close drawer on hover
                 >
                   {isSelected ? <Minus size={20} /> : <Plus size={20} />}
                 </button>
-
+                <span className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs rounded-md px-2 py-1 shadow-lg whitespace-nowrap">
+    {isSelected ? "Remove from list" : "Add to list"}
+  </span>
+              </div>
+              </div>
               </div>
             );
           })
@@ -161,22 +171,24 @@ const Interaction = () => {
       </div>
 
       {/* 🏷️ Selected Drugs Button */}
-      <div className="absolute ml-2 right-4 top-20 sm:top-34 md:top-8">
-        <div className="relative flex group sm:justify-center">
-          <button
-            onClick={() => setDrawerOpen(true)}
-            className="relative flex items-center gap-2 px-4 py-2 text-sm transition-all duration-300 bg-white border border-teal-500 rounded-full shadow-sm group-hover:bg-teal-500"
-          >
-            {selectedDrugs.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
-                {selectedDrugs.length}
-              </span>
-            )}
-            <ClipboardList size={24} className="text-black-900 group-hover:text-white" />
-            <span className="hidden font-medium sm:inline text-black-500 group-hover:text-white">
-              Selected Drugs
-            </span>
-          </button>
+   
+        <div className="absolute top-20 sm:top-10 right-4 sm:right-6 md:right-24 z-20">
+      <div className="relative flex group sm:justify-center">
+        <button
+  onClick={() => setDrawerOpen(true)}
+  className="relative flex items-center gap-1.5 px-2 py-1.5 text-sm transition-all duration-300 bg-white border border-teal-500 rounded-full shadow-sm group-hover:bg-teal-500"
+  >
+  {selectedDrugs.length > 0 && (
+    <span className="absolute -top-2 -right-2 bg-teal-500 text-white text-xs font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center">
+      {selectedDrugs.length}
+    </span>
+  )}
+  <ClipboardList size={20} className="text-black-900 group-hover:text-white md:size-6" />
+  <span className="hidden font-medium sm:inline text-black-500 group-hover:text-white">
+    Selected Drugs
+  </span>
+</button>
+
 
 
           {/* Tooltip for selected drugs (Hidden on mobile, visible on md+ screens) */}
@@ -194,6 +206,7 @@ const Interaction = () => {
           )}
         </div>
       </div>
+      
 
 
       {/* Drug Drawer */}

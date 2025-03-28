@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import supabase from "../../Supabase/supabase";
+import React from "react";
 import { IoArrowBack } from "react-icons/io5";
+import { useNavigate, useParams } from "react-router-dom";
+import supabase from "../../Supabase/supabase";
 
 const HcpfoodInteraction = () => {
   const { id: drugId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Received Drug ID:", drugId);
-  }, [drugId]);
+  // useEffect(() => {
+  //   console.log("Received Drug ID:", drugId);
+  // }, [drugId]);
+
+  
 
   const { data: drug, isLoading: drugLoading, error: drugError } = useQuery({
     queryKey: ["drug_list", drugId],
