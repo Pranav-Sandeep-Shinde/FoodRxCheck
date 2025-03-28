@@ -9,12 +9,13 @@ import {
   FlaskRound as Flask,
   Apple,
   Brain,
+  ClipboardCheck
+
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 import { useTheme } from "../context/ThemeContext";
 import { motion } from "framer-motion";
-
 const Navbar = () => {
   const { themeColor, role } = useTheme();
   const [isOpen, setIsOpen] = React.useState(false);
@@ -22,7 +23,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { session } = useAuth();
-
   // Navigation Items
   const navItems = [
     { page: "home", icon: Home, text: "Home", description: "Main Dashboard" },
@@ -33,10 +33,10 @@ const Navbar = () => {
       description: "Direction of use",
     },
     {
-      page: `${session ? "profile" : "auth"}`,
+      page: `${role == 'hcp' ? "profile" : "auth"}`,
       icon: UserCircle,
-      text: `${session ? "Profile" : "Auth"}`,
-      description: "Sign In As HCP",
+      text: `${role == 'hcp' ? "Profile" : "Authenticate"}`,
+      description: `${role == 'hcp' ? "View your Profile" : "Sign In As HCP"}`,
     },
     role !== "hcp" && {
       page: "interactions",
@@ -57,6 +57,7 @@ const Navbar = () => {
       description: "Drug Hierarchy",
     },
     { page: "foodSearch", icon: Apple, text: "Food Search", description: "Food Search" },
+    { page: 'suggestions', icon: ClipboardCheck, text: 'Suggestions', description: 'Suggestions' },
   ].filter(Boolean);
 
   const onNavigate = (page) => {
@@ -76,11 +77,11 @@ const Navbar = () => {
   return (
     <>
       {/* Mobile Top Bar */}
-      <div className={`md:hidden fixed top-0 left-0 right-0 bg-${themeColor}-600 z-50`}>
+      <div className={`md:hidden w-full bg-${themeColor}-600 z-50`}>
         <div className="flex justify-between items-center h-16 px-4">
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`text-white p-2 rounded-md hover:bg-${themeColor}-700 transition-colors`}
+            className={`mobile-view text-white p-2 rounded-md hover:bg-${themeColor}-700 transition-colors`}
           >
             {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -115,18 +116,17 @@ const Navbar = () => {
           </div>
 
           {/* Navigation Items with Animation */}
-          <div className="flex-1 py-6 overflow-y-auto">
+          <div className="icons flex-1 py-6 overflow-y-auto">
             <div className="px-2 space-y-2">
               {navItems.map(({ page, icon: Icon, text, description }, index) => (
                 <motion.button
                   key={page}
                   onClick={() => onNavigate(page)}
                   className={`w-full text-left px-4 py-3 rounded-full transition-all duration-200 ease-in-out
-                    ${
-                      location.pathname === `/${page}` ||
+                    ${location.pathname === `/${page}` ||
                       (page === "home" && location.pathname === "/")
-                        ? `bg-teal-100 text-${themeColor}-700 shadow-sm`
-                        : `text-${themeColor}-600 hover:bg-${themeColor}-50`
+                      ? `bg-${themeColor}-100 text-${themeColor}-700 shadow-sm`
+                      : `text-${themeColor}-600 hover:bg-${themeColor}-50`
                     }`}
                   variants={navVariants}
                   initial="hidden"
@@ -170,11 +170,10 @@ const Navbar = () => {
                       setIsOpen(false);
                     }}
                     className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ease-in-out
-                      ${
-                        location.pathname === `/${page}` ||
+                      ${location.pathname === `/${page}` ||
                         (page === "home" && location.pathname === "/")
-                          ? `bg-teal-100 text-${themeColor}-700 shadow-sm`
-                          : "text-gray-600 hover:bg-gray-50"
+                        ? `bg-${themeColor}-100 text-${themeColor}-700 shadow-sm`
+                        : "text-gray-600 hover:bg-gray-50"
                       }`}
                     variants={navVariants}
                     initial="hidden"

@@ -1,16 +1,18 @@
-import React, { useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import supabase from "../../Supabase/supabase";
+import React from "react";
 import { IoArrowBack } from "react-icons/io5";
+import { useNavigate, useParams } from "react-router-dom";
+import supabase from "../../Supabase/supabase";
 
 const HcpfoodInteraction = () => {
   const { id: drugId } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Received Drug ID:", drugId);
-  }, [drugId]);
+  // useEffect(() => {
+  //   console.log("Received Drug ID:", drugId);
+  // }, [drugId]);
+
+
 
   const { data: drug, isLoading: drugLoading, error: drugError } = useQuery({
     queryKey: ["drug_list", drugId],
@@ -62,7 +64,7 @@ const HcpfoodInteraction = () => {
   return (
     <div className="w-full max-w-md sm:max-w-lg md:max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-3 md:mt-8">
       {/* Header */}
-      <div className="bg-blue-600 text-white px-3 py-2 sm:p-4 flex items-center">
+      <div className="bg-sky-600 text-white px-3 py-2 sm:p-4 flex items-center">
         <button onClick={() => navigate("/hcpdruglist")} className="flex items-center">
           <IoArrowBack className="text-xl sm:text-2xl" />
         </button>
