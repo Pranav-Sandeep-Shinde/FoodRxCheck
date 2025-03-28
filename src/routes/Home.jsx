@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Header from "../components/HomeCustom/Header";
+import { useState, useEffect } from "react";
 import Hero from "../components/HomeCustom/Hero";
 import logoAnimation from "../assets/logoAnimation.mp4";
 
@@ -19,7 +18,7 @@ const Home = () => {
   }, []);
 
   const handleLogoAnimationEnd = () => {
-    
+
     setTimeout(() => {
       setShowHero(true);
       sessionStorage.setItem("logoAnimationPlayed", "true"); // Mark as played
