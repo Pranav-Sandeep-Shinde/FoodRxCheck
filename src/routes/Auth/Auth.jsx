@@ -233,7 +233,7 @@ function AuthLayout() {
               <img className=" w-[20em] rounded-full" style={{ background: "radial-gradient(circle, #14b8a6 50%, white 100%)" }} src="/drugSpecIconwhite1.png" alt="icon" />
             </div>
             <div className=" heading text-[35px] font-bold font-fit">Welcome Back!</div>
-            <div className="my-1">Don't Have an Account?</div>
+            <div className="my-1">Don&apos;t Have an Account?</div>
             <button
               className="bg-none text-white p-2  w-1/3 border-2 border-solid border-white rounded-lg"
               onClick={() => setIsActive(true)}

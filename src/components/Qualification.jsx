@@ -16,7 +16,7 @@ const QualificationModal = ({ isOpen, onClose, onSave }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
       <div className="bg-white p-6 rounded-3xl shadow-lg w-96 mx-4">
         <h2 className="text-lg font-semibold mb-4">Add Qualification</h2>
-        
+
         {/* Degree Dropdown */}
         <label className="block mb-2 font-medium text-gray-700">Degree</label>
         <select
@@ -25,10 +25,23 @@ const QualificationModal = ({ isOpen, onClose, onSave }) => {
           className="w-full border border-gray-300 p-2 rounded mb-4"
         >
           <option value="">Select Degree</option>
+          <option value="MBBS">MBBS</option>
+          <option value="MD">MD</option>
+          <option value="MS">MS</option>
+          <option value="BAMS">BAMS</option>
+          <option value="BHAMS">BHAMS</option>
+          <option value="MD(HOMEOPATHY)">MD(HOMEOPATHY)</option>
+          <option value="DM">DM</option>
+          <option value="MCh">MCh</option>
+          <option value="BDS">BDS</option>
+          <option value="MDS">MDS</option>
+          <option value="BPharm">BPharm</option>
+          <option value="MPharm">MPharm</option>
+          <option value="Pharm.D">Pharm.D</option>
+          <option value="BPT">BPT</option>
+          <option value="MPT">MPT</option>
+          <option value="Diploma in nursing">Diploma in nursing</option>
           <option value="BSc">BSc</option>
-          <option value="BA">BA</option>
-          <option value="BCom">BCom</option>
-          <option value="BE">BE</option>
           <option value="MSc">MSc</option>
         </select>
 
