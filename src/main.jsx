@@ -11,22 +11,25 @@ import './index.css';
 import AuthLayout from './routes/Auth/Auth.jsx';
 import PassReset from './routes/Auth/PassReset.jsx';
 import PrivateRoute from './routes/Auth/PrivateRoute.jsx';
-import DrugClassification from './routes/Hcp/Classlist.tsx';
+import DrugClassification from './routes/Hcp/Classlist.jsx';
+import DrugListClassification from './routes/Hcp/DrugListClassifcation.jsx'
+import SubClassList from './routes/Hcp/SubClassList.jsx'
 import Drug_List from './routes/Hcp/Drug_List.jsx';
 import DrugCarousel from './routes/Hcp/DrugCarousel.jsx';
-import DrugListClassification from './routes/Hcp/DrugListClassifcation.tsx';
-import InteractionList from './routes/Hcp/InteractionListClassification.tsx';
-import Profile from './routes/Hcp/Profile.jsx';
-import SubClassList from './routes/Hcp/SubClassList.tsx';
-import Home from './routes/Home.jsx';
-import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
 import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
-import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
+import DrugList from './routes/Patient/DrugList.jsx';
+import InteractionList from './routes/Hcp/InteractionListClassification.jsx';
+import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
+import Interaction from './routes/Patient/interactions.jsx';
+// import { ThemeProvider } from "./context/ThemeContext";
 import FoodSearch from './routes/Patient/FoodSearch.jsx';
+import DrugInteractionList from './routes/Patient/DrugInteractionList.jsx';
+import FoodInteraction from './routes/Patient/FoodInteraction.jsx';
 import General from './routes/Patient/General_Instruction.jsx';
 import Instruction from './routes/Patient/instructions.jsx';
-import Interaction from './routes/Patient/interactions.jsx';
 import Suggestions from './routes/Suggestions.jsx';
+import Home from './routes/Home.jsx'
+import Profile from './routes/Hcp/Profile.jsx'
 const queryClient = new QueryClient();
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,11 +66,11 @@ const router = createBrowserRouter(
         </DrugsProvider>
       } /> */}
 
-<Route path="/hcp_foodInteraction/:drug_id" element={
-  <DrugsProvider moduleType="hcp">
-    <FoodInteraction moduleType="hcp" />
-  </DrugsProvider>
-} />
+      <Route path="/hcp_foodInteraction/:drug_id" element={
+        <DrugsProvider moduleType="hcp">
+          <FoodInteraction moduleType="hcp" />
+        </DrugsProvider>
+      } />
 
 
 

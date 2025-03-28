@@ -85,6 +85,7 @@ const Interaction = () => {
 </div>
 
 
+
       <div className="justify-center hidden mt-4 sm:flex sm:mt-0 md:hidden">
         <h1 className="w-auto px-6 py-3 text-3xl font-bold text-white bg-teal-600 rounded-lg sm:text-3xl">
           Explore Drugs
@@ -93,9 +94,9 @@ const Interaction = () => {
 
       {/*  A-Z Alphabet Filter */}
       <div className="flex-col items-center hidden w-full my-4 md:flex">
-      <h2 className="mb-4 text-xl font-extrabold tracking-wide text-gray-900 whitespace-nowrap">
-  🔠 Filter by First Letter
-</h2>
+        <h2 className="mb-4 text-xl font-extrabold tracking-wide text-gray-900 whitespace-nowrap">
+          🔠 Filter by First Letter
+        </h2>
 
 
         {/* Dropdown for Mobile */}
@@ -148,8 +149,10 @@ const Interaction = () => {
                 {/* Add / Remove Button */}
                 <div className="relative group">
                 <button
+
                    className={`ml-4 p-2 rounded-full p-2 transition ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-teal-500 hover:bg-teal-600"} text-white flex items-center justify-center w-8 h-8`}
                   onClick={(e) =>{  e.stopPropagation(); toggleDrug(drug, e)}}
+                  
                   onMouseEnter={() => setDrawerOpen(false)} // Close drawer on hover
                 >
                   {isSelected ? <Minus size={20} /> : <Plus size={20} />}
@@ -185,6 +188,7 @@ const Interaction = () => {
     Selected Drugs
   </span>
 </button>
+
 
 
           {/* Tooltip for selected drugs (Hidden on mobile, visible on md+ screens) */}

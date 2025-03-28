@@ -22,6 +22,7 @@ const DrugDetails = () => {
 
   const { data: directionData, isLoading, error } = useQuery({
     queryKey: ["instructions", id],
+    enabled: !!id,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("general_instructions")
@@ -33,6 +34,11 @@ const DrugDetails = () => {
       }
       return data;
     },
+    staleTime: 5 * 60 * 1000, // Data stays fresh for 5 minutes
+    cacheTime: 10 * 60 * 1000, // Data is cached for 10 minutes
+    retry: 2, // Retry failed queries up to 2 times
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 10000), // Exponential backoff (up to 10 seconds)
+    // initialData: null, // Optional: Define default data while loading
   });
   if (isLoading) {
     return (

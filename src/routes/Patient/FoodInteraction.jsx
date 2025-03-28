@@ -3,7 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import supabase from "../../Supabase/supabase";
-
+import { useTheme } from "../../context/ThemeContext";
 const FoodInteraction = ({ moduleType = "patient" }) => {
   const { drug_id } = useParams();
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const FoodInteraction = ({ moduleType = "patient" }) => {
             ? "food, mechanism_of_action, severity, management, reference"
             : "food, management, counselling_tips"
         )
-        .eq("drug_id",numericDrugId);
+        .eq("drug_id", numericDrugId);
 
       if (error) {
         console.error("Error fetching interactions:", error.message);
@@ -101,13 +101,14 @@ const FoodInteraction = ({ moduleType = "patient" }) => {
       </div>
     );
 
-    console.log("Module Type:", moduleType);
-console.log("Valid Interactions:", validInteractions);
+  console.log("Module Type:", moduleType);
+  console.log("Valid Interactions:", validInteractions);
 
+  const themeColor = useTheme();
   return (
     <div className="max-w-3xl p-4 mx-auto mt-6 bg-white border border-gray-200 rounded-lg shadow-lg md:p-6 md:mt-10">
       {/* Header */}
-      <div className="p-3 text-white bg-teal-600 rounded-t-lg md:p-4">
+      <div className={`p-3 text-white bg-${themeColor.themeColor}-600 rounded-t-lg md:p-4`}>
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
@@ -140,7 +141,7 @@ console.log("Valid Interactions:", validInteractions);
               </summary>
               <div className="p-3 space-y-2 text-sm text-gray-800 bg-white md:p-4 md:text-base">
                 {/* HCP-specific fields */}
-          {moduleType === "hcp" && interaction.mechanism_of_action && (
+                {moduleType === "hcp" && interaction.mechanism_of_action && (
                   <p>
                     <strong>Mechanism of Action:</strong>{" "}
                     {interaction.mechanism_of_action}
