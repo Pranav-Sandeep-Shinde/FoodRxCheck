@@ -72,8 +72,8 @@ const Interaction = () => {
     <div className="max-w-full px-4 py-8 transition-all duration-300 md:px-28 md:ml-20">
       {/* Search Input  on Mobile */}
       <div className="flex mb-8 justify-center sm:justify-center md:justify-start">
-  <div className="relative flex items-center bg-gray-100 rounded-full shadow-md border border-gray-300 transition-all duration-300 w-[75%] h-[55px] sm:w-[50px] sm:h-[50px] sm:p-2 sm:hover:w-[280px] sm:hover:px-4">
-    <Search className="w-8 h-8 text-gray-400 cursor-pointer sm:w-6 sm:h-6"  /> {/* Increased size */}
+  <div className="relative flex items-center bg-gray-100 rounded-full shadow-md border border-gray-300 transition-all duration-300 w-[75%] h-[47px] sm:w-[55px] sm:h-[50px] sm:p-2 sm:hover:w-[280px] sm:hover:px-4">
+    <Search className="w-6 h-9 text-gray-400 cursor-pointer sm:w-6 sm:h-7"  /> {/* Increased size */}
     <input
       type="text"
       placeholder="Search for a drug..."
@@ -85,7 +85,6 @@ const Interaction = () => {
 </div>
 
 
-
       <div className="justify-center hidden mt-4 sm:flex sm:mt-0 md:hidden">
         <h1 className="w-auto px-6 py-3 text-3xl font-bold text-white bg-teal-600 rounded-lg sm:text-3xl">
           Explore Drugs
@@ -94,9 +93,9 @@ const Interaction = () => {
 
       {/*  A-Z Alphabet Filter */}
       <div className="flex-col items-center hidden w-full my-4 md:flex">
-        <h2 className="mb-4 text-xl font-extrabold tracking-wide text-gray-900 whitespace-nowrap">
-          🔠 Filter by First Letter
-        </h2>
+      <h2 className="mb-4 text-xl font-extrabold tracking-wide text-gray-900 whitespace-nowrap">
+  🔠 Filter by First Letter
+</h2>
 
 
         {/* Dropdown for Mobile */}
@@ -132,7 +131,7 @@ const Interaction = () => {
 
       {/* Drug List */}
       {/* <div className="grid w-full grid-cols-1 gap-4 text-sm sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 sm:text-base md:text-base lg:text-lg xl:text-lg"> */}
-      <div className="grid w-full grid-cols-1 gap-4 text-sm sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 sm:text-base md:text-lg lg:text-lg xl:text-xl">
+      <div className="grid w-full grid-cols-1 gap-4 text-sm sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 sm:text-base md:text-lg lg:text-lg xl:text-xl ">
 
         {filteredDrugs?.length > 0 ? (
           filteredDrugs.map((drug) => {
@@ -140,19 +139,20 @@ const Interaction = () => {
             return (
               <div
                 key={drug.drug_id}
-                className="flex items-center justify-between p-6 text-sm transition-all duration-300 transform bg-white shadow-md cursor-pointer rounded-xl hover:shadow-lg hover:scale-105 sm:text-base"
+                className="flex items-center justify-between p-3 sm:p-5 text-sm transition-all duration-300 transform bg-white shadow-md cursor-pointer rounded-xl hover:shadow-lg hover:scale-105 sm:text-base hover:shadow-xl hover:scale-105 hover:-translate-y-1 rounded-xl 
+          shadow-lg sm:shadow-md md:shadow-lg lg:shadow-xl transition-all duration-300 
+          hover:shadow-2xl "
                 onClick={() => navigate(`/food-interaction/${drug.drug_id}`)}
               >
                  <div className="flex items-center justify-between w-full">
-              <h3 className="w-full text-sm font-semibold text-center text-gray-900 sm:text-lg md:text-xl  md:text-[20px] md:text-left">{drug.drug_name}</h3>
+              <h3 className="w-full text-sm font-semibold text-center text-gray-900 sm:text-base md:text-xl  md:text-[19px] md:text-left">{drug.drug_name}</h3>
                
                 {/* Add / Remove Button */}
                 <div className="relative group">
                 <button
-
-                   className={`ml-4 p-2 rounded-full p-2 transition ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-teal-500 hover:bg-teal-600"} text-white flex items-center justify-center w-8 h-8`}
+                   className={`ml-4 p-2 rounded-full transition ${isSelected ? "bg-gray-500 hover:bg-gray-600" : "bg-teal-500 hover:bg-teal-600"} text-white flex items-center justify-center w-8 h-8 shadow-md 
+    hover:shadow-lg focus:shadow-xl hover:ring-2 hover:ring-teal-400`}
                   onClick={(e) =>{  e.stopPropagation(); toggleDrug(drug, e)}}
-                  
                   onMouseEnter={() => setDrawerOpen(false)} // Close drawer on hover
                 >
                   {isSelected ? <Minus size={20} /> : <Plus size={20} />}
@@ -188,7 +188,6 @@ const Interaction = () => {
     Selected Drugs
   </span>
 </button>
-
 
 
           {/* Tooltip for selected drugs (Hidden on mobile, visible on md+ screens) */}
