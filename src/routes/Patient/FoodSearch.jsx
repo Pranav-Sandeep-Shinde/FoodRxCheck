@@ -136,7 +136,7 @@ const FoodSearch = () => {
         { name: "Coffee", emoji: "☕" },
         { name: "Milk", emoji: "🥛" },
         { name: "Orange", emoji: "🍊" },
-        { name: "Grapefruit", emoji: "🍇" },
+        { name: "Grape", emoji: "🍇" },
         { name: "Banana", emoji: "🍌" },
     ], []);
 
