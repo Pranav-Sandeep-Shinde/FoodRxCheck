@@ -192,7 +192,7 @@ const FoodSearch = () => {
                                 ))}
                             </motion.div>
                     </div>
-                 ))}
+                ))}
                         </div>
                     </div>
                 )}
