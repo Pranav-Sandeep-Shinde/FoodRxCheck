@@ -58,7 +58,7 @@ export const DrugsProvider = ({ children, moduleType }) => {
     } else {
       localStorage.removeItem(storageKey);
     }
-  }, [selectedDrugs]);
+  }, [selectedDrugs, storageKey]);
 
   // Remove a specific drug
   const removeDrug = (drugId) => {

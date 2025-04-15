@@ -1,4 +1,3 @@
-import React from 'react'
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useState, useEffect } from 'react';
 import { Outlet } from 'react-router'
@@ -25,49 +24,49 @@ const App = () => {
     return () => clearTimeout(timeoutId); // Cleanup timeout on unmount
   }, []);
   // Disabling the right click and key shortcut
-  useEffect(() => {
-    // Disable Right-Click
-    const disableRightClick = (event) => event.preventDefault();
-    document.addEventListener("contextmenu", disableRightClick);
+  // useEffect(() => {
+  //   // Disable Right-Click
+  //   const disableRightClick = (event) => event.preventDefault();
+  //   document.addEventListener("contextmenu", disableRightClick);
 
-    // Disable Common Keyboard Shortcuts
-    const disableShortcuts = (event) => {
-      if (
-        event.ctrlKey &&
-        ["u", "U", "c", "C", "i", "I", "s", "S"].includes(event.key)
-      ) {
-        event.preventDefault();
-      }
-      if (["F12", "F11", "F10"].includes(event.key)) {
-        event.preventDefault();
-      }
-    };
-    document.addEventListener("keydown", disableShortcuts);
+  //   // Disable Common Keyboard Shortcuts
+  //   const disableShortcuts = (event) => {
+  //     if (
+  //       event.ctrlKey &&
+  //       ["u", "U", "c", "C", "i", "I", "s", "S"].includes(event.key)
+  //     ) {
+  //       event.preventDefault();
+  //     }
+  //     if (["F12", "F11", "F10"].includes(event.key)) {
+  //       event.preventDefault();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", disableShortcuts);
 
-    // Detect DevTools Open (Close Immediately)
-    let devToolsOpened = false; // Ensure it runs only once
+  //   // Detect DevTools Open (Close Immediately)
+  //   let devToolsOpened = false; // Ensure it runs only once
 
-    const detectDevTools = () => {
-      if (!devToolsOpened) {
-        const threshold = 160;
-        if (
-          window.outerWidth - window.innerWidth > threshold ||
-          window.outerHeight - window.innerHeight > threshold
-        ) {
-          devToolsOpened = true;
-          alert("DevTools detected! The window will now close.");
-          document.body.innerHTML = "h1>DevTools detected! The window will now close.</h1>";
-        }
-      }
-      requestAnimationFrame(detectDevTools);
-    };
-    requestAnimationFrame(detectDevTools);
+  //   const detectDevTools = () => {
+  //     if (!devToolsOpened) {
+  //       const threshold = 160;
+  //       if (
+  //         window.outerWidth - window.innerWidth > threshold ||
+  //         window.outerHeight - window.innerHeight > threshold
+  //       ) {
+  //         devToolsOpened = true;
+  //         alert("DevTools detected! The window will now close.");
+  //         document.body.innerHTML = "h1>DevTools detected! The window will now close.</h1>";
+  //       }
+  //     }
+  //     requestAnimationFrame(detectDevTools);
+  //   };
+  //   requestAnimationFrame(detectDevTools);
 
-    return () => {
-      document.removeEventListener("contextmenu", disableRightClick);
-      document.removeEventListener("keydown", disableShortcuts);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener("contextmenu", disableRightClick);
+  //     document.removeEventListener("keydown", disableShortcuts);
+  //   };
+  // }, []);
 
 
   return (

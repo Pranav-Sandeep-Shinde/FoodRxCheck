@@ -17,9 +17,9 @@ import SubClassList from './routes/Hcp/SubClassList.jsx'
 import Drug_List from './routes/Hcp/Drug_List.jsx';
 import DrugCarousel from './routes/Hcp/DrugCarousel.jsx';
 import DrugListDrawer from './routes/Patient/DrugListDrawer.jsx';
-import DrugList from './routes/Patient/DrugList.jsx';
+// import DrugList from './routes/Patient/DrugList.jsx';
 import InteractionList from './routes/Hcp/InteractionListClassification.jsx';
-import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
+// import HcpfoodInteraction from './routes/Hcp/hcp_foodInteraction.jsx';
 import Interaction from './routes/Patient/interactions.jsx';
 // import { ThemeProvider } from "./context/ThemeContext";
 import FoodSearch from './routes/Patient/FoodSearch.jsx';
