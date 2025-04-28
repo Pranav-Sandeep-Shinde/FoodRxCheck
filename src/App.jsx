@@ -70,16 +70,21 @@ const App = () => {
 
 
   return (
-    <div className='min-h-screen bg-gray-100'>
-      {isVisible && <Navbar />} {/* Show navbar after 5 sec delay */}
-      <main className='pt-4 md:pt-0'>
-        {/* ✅ Pass selectedDrugs and setSelectedDrugs via context */}
-        <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
-      </main>
-      <SpeedInsights />
-      <Analytics />
-    </div>
+    <>
 
+      <div className='min-h-screen bg-gray-100 flex flex-col  flex-grow'>
+        {isVisible && <Navbar />} {/* Show navbar after 5 sec delay */}
+        <main className='flex-grow pt-4 md:pt-0'>
+          {/* ✅ Pass selectedDrugs and setSelectedDrugs via context */}
+          <Outlet context={{ selectedDrugs, setSelectedDrugs }} />
+        </main>
+        <footer className=" text-sm text-center font-light text-gray-400 p-4">
+          Designed and Developed by P.E.S MCOP and MCOE
+        </footer>
+        <SpeedInsights />
+        <Analytics />
+      </div>
+    </>
   );
 };
 

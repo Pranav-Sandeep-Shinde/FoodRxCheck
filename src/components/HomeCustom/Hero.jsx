@@ -82,6 +82,7 @@ const Home = ({ showHero }) => {
   };
   return (
     <>
+
       {role === 'patient' ?
         (
           <div
@@ -291,7 +292,7 @@ const Home = ({ showHero }) => {
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to get started?</h2>
               <p className="text-gray-600 mb-6">Access our comprehensive library of medical instructions</p>
               <button
-                className={`inline-flex items-center px-6 py-3 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors`}
+                className={`inline-flex items-center px-2 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition-colors`}
                 onClick={() => navigate('/hcpdruglist')}
               >
                 View Drug List

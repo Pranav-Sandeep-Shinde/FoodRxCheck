@@ -26,7 +26,7 @@ const Home = () => {
   };
 
   return (
-    <div className="main">
+    <div className="main  min-h-screen flex flex-col flex-grow">
       {playAnimation && !showHero && (
         <video
           className={`video`}
