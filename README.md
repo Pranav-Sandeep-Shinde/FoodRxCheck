@@ -37,7 +37,7 @@
 | State Mgmt    | React Context API / useState/useEffect |
 | Backend       | Supabase (PostgreSQL + Auth)           |
 | Auth          | Supabase Email Authentication          |
-| Deployment    | Vercel / Netlify (Recommended)         |
+| Deployment    | Vercel        |
 
 ---
 
