@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /supabase/
+Disallow: /Supabase
+Disallow: /profile
+Sitemap: https://food-rx-check.vercel.app/sitemap.xml

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://food-rx-check.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://food-rx-check.vercel.app/general</loc>
+  </url>
+  <url>
+    <loc>https://food-rx-check.vercel.app/suggestions</loc>
+  </url>
+  <url>
+    <loc>https://food-rx-check.vercel.app/interactions</loc>
+  </url>
+  <url>
+    <loc>https://food-rx-check.vercel.app/foodSearch</loc>
+  </url>
+  <url>
+    <loc>https://food-rx-check.vercel.app/auth</loc>
+  </url>
+</urlset>
